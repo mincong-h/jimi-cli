@@ -2,8 +2,14 @@ package main
 
 import (
 	"fmt"
+	"os"
+
+	"github.com/mincong-h/jimi-cli/internal/commands"
 )
 
 func main() {
-	fmt.Println("Welcome to Jimi.")
+	if err := commands.RootCmd.Execute(); err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
 }

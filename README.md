@@ -19,4 +19,3 @@ Then build the CLI:
 go mod tidy
 go build -o dist/jimi cmd/main.go
 ```
-
