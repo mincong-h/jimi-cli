@@ -2,11 +2,16 @@ package immo
 
 import (
 	"errors"
+	"fmt"
 	"os"
 
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v3"
 )
+
+// note: we can improve this later
+// https://www.anil.org/outils/outils-de-calcul/frais-dacquisition-dits-frais-de-notaire/
+const notaryFeesRate = 0.08
 
 var evaluateCmd = &cobra.Command{
 	Use:   "evaluate",
@@ -20,27 +25,35 @@ func runEvaluate(cmd *cobra.Command, args []string) {
 		println(err)
 		os.Exit(1)
 	}
-	for _, mortgage := range cfg.EstimatedMortgages {
-		println("Estimating mortgage amount for", mortgage.Amount)
-		ctx := EvaluationContext{
-			EstimatedMortgageAmount: mortgage.Amount,
+	for _, good := range cfg.Goods {
+		println("Estimating mortgages for", good.Name)
+		for _, mortgage := range cfg.EstimatedMortgages {
+			fmt.Printf("Estimating mortgage %.0f\n", mortgage.Amount)
+			result := evaluate(EvaluationContext{
+				TotalFamilyAssets:      cfg.Family.TotalAssets,
+				TotalFamilyLiabilities: cfg.Family.TotalLiabilities,
+				MortgageAmount:         mortgage.Amount,
+				MortgageInterestRate:   mortgage.InterestRate,
+				MortgageYears:          mortgage.Years,
+				MortgageMonthlyCost:    mortgage.MonthlyCost,
+			}, good)
+			printResult(result)
 		}
-		result := evaluate(ctx)
-		printResult(result)
 	}
 }
 
 func loadConfig() (ImmoConfig, error) {
 	var (
-		configPath = os.Getenv("JIMI_CONFIG")
-		config     ImmoConfig
+		rootConfigPath = os.Getenv("JIMI_CONFIG")
+		configPath     = rootConfigPath + "/immo.yaml"
+		config         ImmoConfig
 	)
-	if configPath == "" {
+	if rootConfigPath == "" {
 		return config, errors.New("JIMI_CONFIG is not set")
 	}
 
-	println("Loading config from")
-	bytes, err := os.ReadFile(os.Getenv("JIMI_CONFIG") + "/immo.yaml")
+	println("Loading config from", configPath)
+	bytes, err := os.ReadFile(configPath)
 	if err != nil {
 		return config, err
 	}
@@ -55,16 +68,20 @@ func printResult(result EvaludationResult) {
 	println(string(data))
 }
 
-func evaluate(ctx EvaluationContext) EvaludationResult {
-	result := EvaludationResult{
-		MortgageAmount: ctx.EstimatedMortgageAmount,
-		// MonthlyMortgagePayment: calculateMonthlyMortgagePayment(ctx),
-		// TotalPurchaseCost:      calculateTotalPurchaseCost(ctx),
-		// TotalMonthHousingCose:  calculateTotalMonthHousingCost(ctx),
-		// TotalAnnualHousingCost: calculateTotalAnnualHousingCost(ctx),
-		// TotalCostOfLoan:        calculateTotalCostOfLoan(ctx),
-		// RemainingAssets:        calculateRemainingAssets(ctx),
-		// MonthlyNetBalance:      calculateMonthlyNetBalance(ctx),
+func evaluate(ctx EvaluationContext, good Good) EvaludationResult {
+	// Assume the agent fees are included in the price of the good.
+	purchaseCost := good.Price * (1 + notaryFeesRate) // house + fees
+
+	contribution := purchaseCost - ctx.MortgageAmount
+
+	// TODO: add more expenses here
+	reminingAssets := ctx.TotalFamilyAssets - contribution
+
+	return EvaludationResult{
+		MortgageAmount:      ctx.MortgageAmount,
+		MortgageMonthlyCost: ctx.MortgageMonthlyCost,
+		Contribution:        contribution,
+		TotalPurchaseCost:   purchaseCost,
+		RemainingAssets:     reminingAssets,
 	}
-	return result
 }
