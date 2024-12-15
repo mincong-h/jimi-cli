@@ -9,4 +9,9 @@ var ImmoCmd = &cobra.Command{
 }
 
 func runImmo(cmd *cobra.Command, args []string) {
+	cmd.Help()
+}
+
+func init() {
+	ImmoCmd.AddCommand(evaluateCmd)
 }
