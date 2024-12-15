@@ -1,6 +1,7 @@
 package immo
 
 import (
+	"errors"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -30,7 +31,15 @@ func runEvaluate(cmd *cobra.Command, args []string) {
 }
 
 func loadConfig() (ImmoConfig, error) {
-	var config ImmoConfig
+	var (
+		configPath = os.Getenv("JIMI_CONFIG")
+		config     ImmoConfig
+	)
+	if configPath == "" {
+		return config, errors.New("JIMI_CONFIG is not set")
+	}
+
+	println("Loading config from")
 	bytes, err := os.ReadFile(os.Getenv("JIMI_CONFIG") + "/immo.yaml")
 	if err != nil {
 		return config, err
