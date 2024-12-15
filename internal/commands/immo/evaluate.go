@@ -3,6 +3,7 @@ package immo
 import (
 	"errors"
 	"fmt"
+	"math"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -25,13 +26,20 @@ func runEvaluate(cmd *cobra.Command, args []string) {
 		println(err)
 		os.Exit(1)
 	}
-	for _, good := range cfg.Goods {
-		println("Estimating mortgages for", good.Name)
-		for _, mortgage := range cfg.EstimatedMortgages {
-			fmt.Printf("Estimating mortgage %.0f\n", mortgage.Amount)
+	fmt.Printf("Found %d goods and %d mortgages to evaluate\n\n", len(cfg.Goods), len(cfg.EstimatedMortgages))
+
+	for i, good := range cfg.Goods {
+		fmt.Printf("%d. Mortgages for %q (%.0fK)\n", i+1, good.Name, math.Round(good.Price/1000))
+		fmt.Println(good.Link)
+		fmt.Println("==========")
+		for j, mortgage := range cfg.EstimatedMortgages {
+			fmt.Printf("%d.%d. Mortgage %.0fK\n", i+1, j+1, math.Round(mortgage.Amount/1000))
+			fmt.Println("----------")
+
 			result := evaluate(EvaluationContext{
 				TotalFamilyAssets:      cfg.Family.TotalAssets,
 				TotalFamilyLiabilities: cfg.Family.TotalLiabilities,
+				ContributionThreshold:  cfg.Family.ContributionThreshold,
 				MortgageAmount:         mortgage.Amount,
 				MortgageInterestRate:   mortgage.InterestRate,
 				MortgageYears:          mortgage.Years,
@@ -69,6 +77,8 @@ func printResult(result EvaludationResult) {
 }
 
 func evaluate(ctx EvaluationContext, good Good) EvaludationResult {
+	var alerts []string
+
 	// Assume the agent fees are included in the price of the good.
 	purchaseCost := good.Price * (1 + notaryFeesRate) // house + fees
 
@@ -77,11 +87,22 @@ func evaluate(ctx EvaluationContext, good Good) EvaludationResult {
 	// TODO: add more expenses here
 	reminingAssets := ctx.TotalFamilyAssets - contribution
 
+	annualHousingCost := ctx.MortgageMonthlyCost*12 + good.PropertyTax
+
+	if contribution > ctx.ContributionThreshold {
+		alerts = append(alerts, "Contribution is above threshold")
+	}
+
 	return EvaludationResult{
-		MortgageAmount:      ctx.MortgageAmount,
-		MortgageMonthlyCost: ctx.MortgageMonthlyCost,
-		Contribution:        contribution,
-		TotalPurchaseCost:   purchaseCost,
-		RemainingAssets:     reminingAssets,
+		MortgageAmount:    math.Round(ctx.MortgageAmount),
+		Contribution:      math.Round(contribution),
+		TotalPurchaseCost: math.Round(purchaseCost),
+		RemainingAssets:   math.Round(reminingAssets),
+
+		MortgageMonthlyCost:    math.Round(ctx.MortgageMonthlyCost),
+		AnnualPropertyTax:      math.Round(good.PropertyTax),
+		TotalAnnualHousingCost: math.Round(annualHousingCost),
+
+		Alerts: alerts,
 	}
 }
