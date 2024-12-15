@@ -1,6 +1,8 @@
 package immo
 
 import (
+	"os"
+
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v3"
 )
@@ -12,32 +14,31 @@ var evaluateCmd = &cobra.Command{
 }
 
 func runEvaluate(cmd *cobra.Command, args []string) {
-	family := loadFamilyContext()
-	for i := range family.EstimatedMortgageAmounts {
+	cfg, err := loadConfig()
+	if err != nil {
+		println(err)
+		os.Exit(1)
+	}
+	for _, mortgage := range cfg.EstimatedMortgages {
+		println("Estimating mortgage amount for", mortgage.Amount)
 		ctx := EvaluationContext{
-			TotalFamilyAssets:             family.TotalFamilyAssets,
-			TotalFamilyLiabilities:        family.TotalFamilyLiabilities,
-			EstimatedMortgageAmount:       family.EstimatedMortgageAmounts[i],
-			EstimatedMortgageInterestRate: family.EstimatedMortgageInterestRates[i],
-			EstimatedMortgageDuration:     family.EstimatedMortgageDurations[i],
-			EstimatedAgencyFees:           family.EstimatedAdditionalFees[i],
-			EstimatedContribution:         family.EstimatedContributions[i],
+			EstimatedMortgageAmount: mortgage.Amount,
 		}
 		result := evaluate(ctx)
 		printResult(result)
 	}
 }
 
-func loadFamilyContext() FamilyContext {
-	return FamilyContext{
-		TotalFamilyAssets:              100000,
-		TotalFamilyLiabilities:         50000,
-		EstimatedMortgageAmounts:       []float64{200000, 300000, 400000},
-		EstimatedMortgageInterestRates: []float64{0.02, 0.025, 0.03},
-		EstimatedMortgageDurations:     []int{15, 20, 30},
-		EstimatedAdditionalFees:        []float64{10000, 15000, 20000},
-		EstimatedContributions:         []float64{50000, 60000, 70000},
+func loadConfig() (ImmoConfig, error) {
+	var config ImmoConfig
+	bytes, err := os.ReadFile(os.Getenv("JIMI_CONFIG") + "/immo.yaml")
+	if err != nil {
+		return config, err
 	}
+	if err := yaml.Unmarshal(bytes, &config); err != nil {
+		return config, err
+	}
+	return config, nil
 }
 
 func printResult(result EvaludationResult) {
