@@ -4,7 +4,7 @@ type ImmoConfig struct {
 	Family FamilyContext `yaml:"family"`
 
 	// EstimatedMortgages is the estimated mortgages for different scenarios.
-	EstimatedMortgages []Mortgate `yaml:"estimated_mortgages"`
+	EstimatedMortgages []Mortgage `yaml:"estimated_mortgages"`
 
 	// Goods is the list of goods to evaluate.
 	Goods []Good `yaml:"goods"`
@@ -27,10 +27,7 @@ type EvaluationContext struct {
 	TotalFamilyAssets      float64
 	TotalFamilyLiabilities float64
 	ContributionThreshold  float64
-	MortgageAmount         float64
-	MortgageInterestRate   float64
-	MortgageYears          int
-	MortgageMonthlyCost    float64
+	Mortgage               Mortgage
 }
 
 // EvaludationResult represents the result of an evaluation.
@@ -54,12 +51,13 @@ type EvaludationResult struct {
 	Alerts []string `yaml:"alerts"`
 }
 
-type Mortgate struct {
+type Mortgage struct {
 	Bank         string  `yaml:"bank"`
 	Amount       float64 `yaml:"amount"`
 	InterestRate float64 `yaml:"interest_rate"`
 	Years        int     `yaml:"years"`
-	MonthlyCost  float64 `yaml:"monthly_cost"`
+	MonthlyCost  float64 `yaml:"monthly_cost"` // without insurance
+	Insurance    float64 `yaml:"insurance"`    // monthly
 	Comment      string  `yaml:"comment"`
 }
 
