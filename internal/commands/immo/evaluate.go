@@ -86,7 +86,6 @@ func evaluate(ctx EvaluationContext, good Good) EvaluationResult {
 
 	contribution := purchaseCost - ctx.Mortgage.Amount
 
-	// TODO: add more expenses here
 	reminingAssets := ctx.Family.TotalAssets - contribution
 
 	if contribution > ctx.Family.ContributionThreshold {
