@@ -8,6 +8,16 @@ type ImmoConfig struct {
 
 	// Goods is the list of goods to evaluate.
 	Goods []Good `yaml:"goods"`
+
+	// CityStats are statistics of the city where the goods are located.
+	CityStats []CityStats `yaml:"cities"`
+}
+
+type CityStats struct {
+	Name                       string  `yaml:"name"`
+	ZipCode                    string  `yaml:"zip_code"`
+	HouseAveragePricePerM2     float64 `yaml:"house_average_price_per_m2"`
+	ApartmentAveragePricePerM2 float64 `yaml:"apartment_average_price_per_m2"`
 }
 
 // FamilyContext represents the family situation. It contains the common information
@@ -28,27 +38,34 @@ type EvaluationContext struct {
 	TotalFamilyLiabilities float64
 	ContributionThreshold  float64
 	Mortgage               Mortgage
+	CityStats              map[string]CityStats // key: zip code
 }
 
-// EvaludationResult represents the result of an evaluation.
-// The fields are grouped into two categories: one-time costs and continuous costs.
-// For each category, the fields are ordered by importance.
-type EvaludationResult struct {
-	// One-time costs
+// EvaluationResult represents the result of an evaluation.
+type EvaluationResult struct {
+	PurchaseCost    PurchaseCost    `yaml:"purchase"`
+	MaintenanceCost MaintenanceCost `yaml:"maintenance"`
+	Performance     GoodPerformance `yaml:"performance"`
+	Alerts          []string        `yaml:"alerts"`
+}
 
+type PurchaseCost struct {
 	TotalPurchaseCost float64 `yaml:"total_purchase_cost"` // house + fees
 	Contribution      float64 `yaml:"contribution"`
 	MortgageAmount    float64 `yaml:"mortgage_amount"`
 	RemainingAssets   float64 `yaml:"remaining_assets"` // after initial contribution
+}
 
-	// Continuous costs
-
+type MaintenanceCost struct {
 	MortgageMonthlyCost    float64 `yaml:"mortgage_monthly_cost"`
 	AnnualPropertyTax      float64 `yaml:"annual_property_tax"` // annual
 	TotalAnnualHousingCost float64 `yaml:"total_annual_housing_cost"`
+}
 
-	// Metadata
-	Alerts []string `yaml:"alerts"`
+type GoodPerformance struct {
+	PricePerM2        float64 `yaml:"price_per_m2"`
+	AveragePricePerM2 float64 `yaml:"avg_price_per_m2"`
+	Comment           string  `yaml:"comment"`
 }
 
 type Mortgage struct {
@@ -71,5 +88,11 @@ type Good struct {
 	Pieces        int     `yaml:"pieces"`
 	Rooms         int     `yaml:"rooms"`
 	PropertyTax   float64 `yaml:"property_tax"` // annual
+	ZipCode       string  `yaml:"zip_code"`
+	Type          string  `yaml:"type"` // house or apartment
 	Comment       string  `yaml:"comment"`
+}
+
+func (g Good) PricePerM2() float64 {
+	return g.Price / g.LivingSpaceM2
 }

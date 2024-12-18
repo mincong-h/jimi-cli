@@ -28,6 +28,12 @@ func runEvaluate(cmd *cobra.Command, args []string) {
 	}
 	fmt.Printf("Found %d goods and %d mortgages to evaluate\n\n", len(cfg.Goods), len(cfg.EstimatedMortgages))
 
+	var cityStats = make(map[string]CityStats)
+	for _, city := range cfg.CityStats {
+		fmt.Printf("City %q (%s)\n", city.Name, city.ZipCode)
+		cityStats[city.ZipCode] = city
+	}
+
 	for i, good := range cfg.Goods {
 		fmt.Printf("%d. Mortgages for %q (%.0fK)\n", i+1, good.Name, math.Round(good.Price/1000))
 		fmt.Println(good.Link)
@@ -41,6 +47,7 @@ func runEvaluate(cmd *cobra.Command, args []string) {
 				TotalFamilyLiabilities: cfg.Family.TotalLiabilities,
 				ContributionThreshold:  cfg.Family.ContributionThreshold,
 				Mortgage:               mortgage,
+				CityStats:              cityStats,
 			}, good)
 			printResult(result)
 		}
@@ -68,12 +75,12 @@ func loadConfig() (ImmoConfig, error) {
 	return config, nil
 }
 
-func printResult(result EvaludationResult) {
+func printResult(result EvaluationResult) {
 	data, _ := yaml.Marshal(result)
 	println(string(data))
 }
 
-func evaluate(ctx EvaluationContext, good Good) EvaludationResult {
+func evaluate(ctx EvaluationContext, good Good) EvaluationResult {
 	var alerts []string
 
 	// Assume the agent fees are included in the price of the good.
@@ -87,19 +94,73 @@ func evaluate(ctx EvaluationContext, good Good) EvaludationResult {
 	annualHousingCost := ctx.Mortgage.MonthlyCost*12 + good.PropertyTax
 
 	if contribution > ctx.ContributionThreshold {
-		alerts = append(alerts, "Contribution is above threshold")
+		alerts = append(alerts, fmt.Sprintf("Contribution is above threshold (%.0fK > %.0fK)",
+			contribution/1000,
+			ctx.ContributionThreshold/1000),
+		)
 	}
 
-	return EvaludationResult{
-		MortgageAmount:    math.Round(ctx.Mortgage.Amount),
-		Contribution:      math.Round(contribution),
-		TotalPurchaseCost: math.Round(purchaseCost),
-		RemainingAssets:   math.Round(reminingAssets),
+	// performances
+	performance := GoodPerformance{}
+	if good.Type == "house" {
+		if stats, exists := ctx.CityStats[good.ZipCode]; exists {
+			avg := stats.HouseAveragePricePerM2
+			performance.PricePerM2 = math.Round(good.PricePerM2())
+			performance.AveragePricePerM2 = math.Round(avg)
 
-		MortgageMonthlyCost:    math.Round(ctx.Mortgage.MonthlyCost + ctx.Mortgage.Insurance),
-		AnnualPropertyTax:      math.Round(good.PropertyTax),
-		TotalAnnualHousingCost: math.Round(annualHousingCost),
+			if good.PricePerM2() > avg {
+				performance.Comment = fmt.Sprintf("House price is %.0f%% above the average. (%.0f > %.0f)",
+					(good.PricePerM2()-avg)/avg*100,
+					good.PricePerM2(),
+					avg,
+				)
+			} else {
+				performance.Comment = fmt.Sprintf("House price is %.0f%% below the average. (%.0f < %.0f)",
+					(avg-good.PricePerM2())/avg*100,
+					good.PricePerM2(),
+					avg,
+				)
+			}
+		} else {
+			alerts = append(alerts, "City stats not found")
+		}
+	} else {
+		if stats, exists := ctx.CityStats[good.ZipCode]; exists {
+			avg := stats.ApartmentAveragePricePerM2
+			performance.PricePerM2 = math.Round(good.PricePerM2())
+			performance.AveragePricePerM2 = math.Round(avg)
 
-		Alerts: alerts,
+			if good.PricePerM2() > avg {
+				performance.Comment = fmt.Sprintf("Flat price is %.0f%% above the average. (%.0f > %.0f)",
+					(good.PricePerM2()-avg)/avg*100,
+					good.PricePerM2(),
+					avg,
+				)
+			} else {
+				performance.Comment = fmt.Sprintf("Flat price is %.0f%% below the average. (%.0f < %.0f)",
+					(avg-good.PricePerM2())/avg*100,
+					good.PricePerM2(),
+					avg,
+				)
+			}
+		} else {
+			alerts = append(alerts, "City stats not found")
+		}
+	}
+
+	return EvaluationResult{
+		PurchaseCost: PurchaseCost{
+			MortgageAmount:    math.Round(ctx.Mortgage.Amount),
+			Contribution:      math.Round(contribution),
+			TotalPurchaseCost: math.Round(purchaseCost),
+			RemainingAssets:   math.Round(reminingAssets),
+		},
+		MaintenanceCost: MaintenanceCost{
+			MortgageMonthlyCost:    math.Round(ctx.Mortgage.MonthlyCost + ctx.Mortgage.Insurance),
+			AnnualPropertyTax:      math.Round(good.PropertyTax),
+			TotalAnnualHousingCost: math.Round(annualHousingCost),
+		},
+		Performance: performance,
+		Alerts:      alerts,
 	}
 }
