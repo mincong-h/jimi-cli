@@ -50,7 +50,7 @@ type EvaluationContext struct {
 // EvaluationResult represents the result of an evaluation.
 type EvaluationResult struct {
 	PurchaseCost    PurchaseCost    `yaml:"purchase"`
-	MaintenanceCost MaintenanceCost `yaml:"maintenance"`
+	OperationalCost OperationalCost `yaml:"maintenance"`
 	Performance     GoodPerformance `yaml:"performance"`
 	Alerts          []string        `yaml:"alerts"`
 }
@@ -62,7 +62,7 @@ type PurchaseCost struct {
 	RemainingAssets   float64 `yaml:"remaining_assets"` // after initial contribution
 }
 
-type MaintenanceCost struct {
+type OperationalCost struct {
 	MonthlyMortgageCost    float64 `yaml:"monthly_mortgage_cost"`
 	MonthlyHousingCharges  float64 `yaml:"monthly_housing_charges"`
 	MonthlyExpenses        float64 `yaml:"monthly_expenses"`

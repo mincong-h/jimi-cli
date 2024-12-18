@@ -161,7 +161,7 @@ func evaluate(ctx EvaluationContext, good Good) EvaluationResult {
 			TotalPurchaseCost: math.Round(purchaseCost),
 			RemainingAssets:   math.Round(reminingAssets),
 		},
-		MaintenanceCost: MaintenanceCost{
+		OperationalCost: OperationalCost{
 			MonthlyMortgageCost:    math.Round(ctx.Mortgage.MonthlyCost + ctx.Mortgage.Insurance),
 			MonthlyHousingCharges:  math.Round(monthlyHousingCharges),
 			MonthlyExpenses:        math.Round(monthlyExpenses),
