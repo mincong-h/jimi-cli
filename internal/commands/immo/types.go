@@ -30,15 +30,21 @@ type FamilyContext struct {
 	TotalLiabilities float64 `yaml:"total_liabilities"`
 
 	ContributionThreshold float64 `yaml:"contribution_threshold"`
+
+	// MonthlyExpenses is the total monthly expenses of the family, based on the average of the last 6 months.
+	MonthlyExpenses float64 `yaml:"monthly_expenses"`
+
+	// MonthlyHousingCharges is the total monthly housing charges of the family.
+	MonthlyHousingCharges float64 `yaml:"monthly_housing_charges"`
+
+	HomeSurfaceM2 float64 `yaml:"home_surface_m2"`
 }
 
 // EvaluationContext represents the context of an evaluation.
 type EvaluationContext struct {
-	TotalFamilyAssets      float64
-	TotalFamilyLiabilities float64
-	ContributionThreshold  float64
-	Mortgage               Mortgage
-	CityStats              map[string]CityStats // key: zip code
+	Family    FamilyContext
+	Mortgage  Mortgage
+	CityStats map[string]CityStats // key: zip code
 }
 
 // EvaluationResult represents the result of an evaluation.
@@ -57,8 +63,11 @@ type PurchaseCost struct {
 }
 
 type MaintenanceCost struct {
-	MortgageMonthlyCost    float64 `yaml:"mortgage_monthly_cost"`
-	AnnualPropertyTax      float64 `yaml:"annual_property_tax"` // annual
+	MonthlyMortgageCost    float64 `yaml:"monthly_mortgage_cost"`
+	MonthlyHousingCharges  float64 `yaml:"monthly_housing_charges"`
+	MonthlyExpenses        float64 `yaml:"monthly_expenses"`
+	MonthlyExpensesDiff    string  `yaml:"monthly_expenses_diff"`
+	AnnualPropertyTax      float64 `yaml:"annual_property_tax"`
 	TotalAnnualHousingCost float64 `yaml:"total_annual_housing_cost"`
 }
 
