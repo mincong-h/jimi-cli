@@ -40,10 +40,7 @@ func runEvaluate(cmd *cobra.Command, args []string) {
 				TotalFamilyAssets:      cfg.Family.TotalAssets,
 				TotalFamilyLiabilities: cfg.Family.TotalLiabilities,
 				ContributionThreshold:  cfg.Family.ContributionThreshold,
-				MortgageAmount:         mortgage.Amount,
-				MortgageInterestRate:   mortgage.InterestRate,
-				MortgageYears:          mortgage.Years,
-				MortgageMonthlyCost:    mortgage.MonthlyCost,
+				Mortgage:               mortgage,
 			}, good)
 			printResult(result)
 		}
@@ -82,24 +79,24 @@ func evaluate(ctx EvaluationContext, good Good) EvaludationResult {
 	// Assume the agent fees are included in the price of the good.
 	purchaseCost := good.Price * (1 + notaryFeesRate) // house + fees
 
-	contribution := purchaseCost - ctx.MortgageAmount
+	contribution := purchaseCost - ctx.Mortgage.Amount
 
 	// TODO: add more expenses here
 	reminingAssets := ctx.TotalFamilyAssets - contribution
 
-	annualHousingCost := ctx.MortgageMonthlyCost*12 + good.PropertyTax
+	annualHousingCost := ctx.Mortgage.MonthlyCost*12 + good.PropertyTax
 
 	if contribution > ctx.ContributionThreshold {
 		alerts = append(alerts, "Contribution is above threshold")
 	}
 
 	return EvaludationResult{
-		MortgageAmount:    math.Round(ctx.MortgageAmount),
+		MortgageAmount:    math.Round(ctx.Mortgage.Amount),
 		Contribution:      math.Round(contribution),
 		TotalPurchaseCost: math.Round(purchaseCost),
 		RemainingAssets:   math.Round(reminingAssets),
 
-		MortgageMonthlyCost:    math.Round(ctx.MortgageMonthlyCost),
+		MortgageMonthlyCost:    math.Round(ctx.Mortgage.MonthlyCost + ctx.Mortgage.Insurance),
 		AnnualPropertyTax:      math.Round(good.PropertyTax),
 		TotalAnnualHousingCost: math.Round(annualHousingCost),
 
