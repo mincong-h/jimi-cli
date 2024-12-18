@@ -30,6 +30,7 @@ func runEvaluate(cmd *cobra.Command, args []string) {
 
 	var cityStats = make(map[string]CityStats)
 	for _, city := range cfg.CityStats {
+		fmt.Printf("City %q (%s)\n", city.Name, city.ZipCode)
 		cityStats[city.ZipCode] = city
 	}
 
@@ -93,7 +94,10 @@ func evaluate(ctx EvaluationContext, good Good) EvaluationResult {
 	annualHousingCost := ctx.Mortgage.MonthlyCost*12 + good.PropertyTax
 
 	if contribution > ctx.ContributionThreshold {
-		alerts = append(alerts, "Contribution is above threshold")
+		alerts = append(alerts, fmt.Sprintf("Contribution is above threshold (%.0fK > %.0fK)",
+			contribution/1000,
+			ctx.ContributionThreshold/1000),
+		)
 	}
 
 	// performances
@@ -101,16 +105,19 @@ func evaluate(ctx EvaluationContext, good Good) EvaluationResult {
 	if good.Type == "house" {
 		if stats, exists := ctx.CityStats[good.ZipCode]; exists {
 			avg := stats.HouseAveragePricePerM2
-			if good.Price > avg {
+			performance.PricePerM2 = math.Round(good.PricePerM2())
+			performance.AveragePricePerM2 = math.Round(avg)
+
+			if good.PricePerM2() > avg {
 				performance.Comment = fmt.Sprintf("House price is %.0f%% above the average. (%.0f > %.0f)",
-					(good.Price-avg)/avg*100,
-					good.Price,
+					(good.PricePerM2()-avg)/avg*100,
+					good.PricePerM2(),
 					avg,
 				)
 			} else {
 				performance.Comment = fmt.Sprintf("House price is %.0f%% below the average. (%.0f < %.0f)",
-					(avg-good.Price)/avg*100,
-					good.Price,
+					(avg-good.PricePerM2())/avg*100,
+					good.PricePerM2(),
 					avg,
 				)
 			}
@@ -120,16 +127,19 @@ func evaluate(ctx EvaluationContext, good Good) EvaluationResult {
 	} else {
 		if stats, exists := ctx.CityStats[good.ZipCode]; exists {
 			avg := stats.ApartmentAveragePricePerM2
-			if good.Price > avg {
+			performance.PricePerM2 = math.Round(good.PricePerM2())
+			performance.AveragePricePerM2 = math.Round(avg)
+
+			if good.PricePerM2() > avg {
 				performance.Comment = fmt.Sprintf("Flat price is %.0f%% above the average. (%.0f > %.0f)",
-					(good.Price-avg)/avg*100,
-					good.Price,
+					(good.PricePerM2()-avg)/avg*100,
+					good.PricePerM2(),
 					avg,
 				)
 			} else {
 				performance.Comment = fmt.Sprintf("Flat price is %.0f%% below the average. (%.0f < %.0f)",
-					(avg-good.Price)/avg*100,
-					good.Price,
+					(avg-good.PricePerM2())/avg*100,
+					good.PricePerM2(),
 					avg,
 				)
 			}

@@ -10,7 +10,7 @@ type ImmoConfig struct {
 	Goods []Good `yaml:"goods"`
 
 	// CityStats are statistics of the city where the goods are located.
-	CityStats []CityStats `yaml:"citys"`
+	CityStats []CityStats `yaml:"cities"`
 }
 
 type CityStats struct {
@@ -91,4 +91,8 @@ type Good struct {
 	ZipCode       string  `yaml:"zip_code"`
 	Type          string  `yaml:"type"` // house or apartment
 	Comment       string  `yaml:"comment"`
+}
+
+func (g Good) PricePerM2() float64 {
+	return g.Price / g.LivingSpaceM2
 }
