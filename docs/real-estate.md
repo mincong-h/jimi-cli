@@ -3,7 +3,7 @@
 This page describes how we leverage AI technologies and `jimi` CLI to analyse real-restate offers.
 
 * **Design Plan.** Design a plan to evaluate a property in an interactive approach. The design is made by different LLMs (Claude 3.5 and ChatGPT 4), and then manually adjusted afterwards.
-* **Extract Metadata.** Extract the metadata from different real-estate offers. It requires creating the definition of the schema that we want, and automatic extractions using [Vertisia AI](https://vertesiahq.com/).
+* **Extract Metadata.** Extract the metadata from different real-estate offers. It requires creating the definition of the schema that we want, and automatic extractions using [Vertesia AI](https://vertesiahq.com/).
 * **Create Prompts.** Create prompts based on the initial plan and the offer metadata. Use those prompts to interact with the LLMs.
 * **Generate analysis report.** Aggregate information from different interactions.
 
@@ -202,7 +202,7 @@ We rely on [Vertesia AI](https://vertesiahq.com/) to extract metadata from any r
 
 ### Offer Schema
 
-The offer schema is defined in this Git repository and upload to Vertesia. We don't rely on the editor of the platform because we need to put additional comments for each field to justify its presence.
+The offer schema is defined in this Git repository and upload to Vertesia. We don't rely on the editor of the platform because we need to put additional comments for each field to justify its presence. Also, because the schema is used for other logic in the `jimi` CLI.
 
 Export the schema using the following command:
 
