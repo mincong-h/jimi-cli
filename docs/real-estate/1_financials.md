@@ -53,6 +53,10 @@ think other info should be included in the output.
 
 ### Affordability and Debt Analysis
 
+Skipped. This is done by `jimi` CLI via the command `jimi immo evaluate`.
+
+### Renovation Analysis
+
 ```js
 return `
 ### Context ###
@@ -61,43 +65,25 @@ ${context}
 
 ### Instructions ###
 
-Analyze my current financial situation and debt capacity for this property
-purchase, considering existing mortgage obligations. I will provide those
-pieces of information in the "Input Data" section.
+Analyze if there are any potential renovations right after the purchase, or in
+the short term based on the characteristics of the property, especially the
+construction year, the materials used, the energy consumption, etc.
 
-The objectives are:
-
-* Determine maximum sustainable mortgage amount
-* Assess impact on current financial stability
-* Evaluate debt-to-income ratio compliance with French banking regulations
-* Calculate optimal down payment strategy
+The objective is to estimate the additional cost of renovation and include it
+as part of the total cost.
 
 ### Input Data ###
 
 Here you will find the information related to the property under the tag
-"property", information related different estimated morgage options under
-"morgages"
+"property".
 
 <property>
 ${property}
 </property>
 
-<morgages>
-${morgages}
-</morgages>
-
 ### Output Indicator ###
 
-Create one or multiple paragraphs to analyze the property and potential
-morgages using markdown syntax.
+Create one or multiple paragraphs to analyze the renovation aspect using
+markdown syntax.
 `
 ```
-
-Required information:
-
-* Current household income (all contributors)
-* Existing mortgage details (monthly payment, remaining balance, interest rate)
-* Other significant monthly debt obligations
-* Expected property taxes in the target area
-* Current savings available for down payment
-* Property price and estimated notary fees
