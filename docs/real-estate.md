@@ -273,3 +273,4 @@ dist/jimi immo show-schema | jq '."$defs".Good'
 
 - [Introduction to Prompt Engineering | OpenAI Workshop](https://github.com/microsoft/OpenAIWorkshop/blob/main/scenarios/prompt_engineering/01_Prompt_Introduction.md)
 - [Vertesia AI](https://vertesiahq.com/)
+- [invopop/jsonschema | GitHub](https://github.com/invopop/jsonschema)
