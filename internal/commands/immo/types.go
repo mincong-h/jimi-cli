@@ -152,6 +152,9 @@ type Good struct {
 	// ConstructionYear indicates the year of construction of the good. Optional.
 	ConstructionYear int `yaml:"construction_year,omitempty" json:"construction_year,omitempty"`
 
+	// RecentRenovationsOrUpdates is a list of recent renovations or updates. Optional.
+	RecentRenovationsOrUpdates []string `yaml:"recent_renovations_or_updates,omitempty" json:"recent_renovations_or_updates,omitempty"`
+
 	// ----------
 	// Location Intelligence
 	// ----------
