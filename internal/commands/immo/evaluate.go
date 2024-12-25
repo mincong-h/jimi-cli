@@ -36,7 +36,7 @@ func runEvaluate(cmd *cobra.Command, args []string) {
 
 	for i, good := range cfg.Goods {
 		fmt.Printf("%d. Mortgages for %q (%.0fK)\n", i+1, good.Name, math.Round(good.Price/1000))
-		fmt.Println(good.Link)
+		fmt.Println(good.OfferUrl)
 		fmt.Println("==========")
 		for j, mortgage := range cfg.EstimatedMortgages {
 			fmt.Printf("%d.%d. Mortgage %.0fK\n", i+1, j+1, math.Round(mortgage.Amount/1000))
@@ -146,13 +146,13 @@ func evaluate(ctx EvaluationContext, good Good) EvaluationResult {
 	// Maintenance costs
 
 	// If the good is bigger than the current home, the monthly housing charges will increase proportionally.
-	monthlyHousingCharges := ctx.Family.MonthlyHousingCharges * (good.LivingSpaceM2 / ctx.Family.HomeSurfaceM2)
+	monthlyHousingCharges := ctx.Family.MonthlyHousingCharges * (good.TotalLivingSpaceM2 / ctx.Family.HomeSurfaceM2)
 	monthlyExpenses := ctx.Family.MonthlyExpenses + monthlyHousingCharges + ctx.Mortgage.MonthlyCost // note: we cannot remove existing charges until we rent the current flat
 	monthlyExpensesDiff := fmt.Sprintf("%.0f (%.0f%%)",
 		monthlyExpenses-ctx.Family.MonthlyExpenses,
 		(monthlyExpenses-ctx.Family.MonthlyExpenses)/ctx.Family.MonthlyExpenses*100,
 	)
-	annualHousingCost := (monthlyHousingCharges+ctx.Mortgage.MonthlyCost)*12 + good.PropertyTax
+	annualHousingCost := (monthlyHousingCharges+ctx.Mortgage.MonthlyCost)*12 + good.AnnualPropertyTax
 
 	return EvaluationResult{
 		PurchaseCost: PurchaseCost{
@@ -166,7 +166,7 @@ func evaluate(ctx EvaluationContext, good Good) EvaluationResult {
 			MonthlyHousingCharges:  math.Round(monthlyHousingCharges),
 			MonthlyExpenses:        math.Round(monthlyExpenses),
 			MonthlyExpensesDiff:    monthlyExpensesDiff,
-			AnnualPropertyTax:      math.Round(good.PropertyTax),
+			AnnualPropertyTax:      math.Round(good.AnnualPropertyTax),
 			TotalAnnualHousingCost: math.Round(annualHousingCost),
 		},
 		Performance: performance,
