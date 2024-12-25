@@ -134,8 +134,39 @@ type Good struct {
 	// Type is the type of the good. Required.
 	Type string `yaml:"type" json:"type" jsonschema:"enum=house,enum=apartment"` // house or apartment
 
-	// EnergyDpeClass is the energy DPE class of the good. Required.
-	EnergyDpeClass string `yaml:"energy_dpe_class" json:"energy_dpe_class"`
+	// ----------
+	// Energy And Diagnosis
+	// ----------
+
+	// HeatingSystem describes the type of heating system (e.g., "individual gas heating: radiator")
+	HeatingSystem string `yaml:"heating_system" json:"heating_system"`
+
+	// HeatingType specifies the energy source used for heating (e.g., "gas", "electric")
+	HeatingType string `yaml:"heating_type" json:"heating_type"`
+
+	// HeatingMethod indicates the heating distribution method (e.g., "radiator")
+	HeatingMethod string `yaml:"heating_method" json:"heating_method"`
+
+	// EnergyPerformanceRating represents the DPE (Diagnostic de performance énergétique) rating
+	// Rating from A to G, where A is the most efficient
+	EnergyPerformanceRating string `yaml:"energy_performance_rating" json:"energy_performance_rating"`
+
+	// GreenhouseGasRating represents the GES (Gaz à effet de serre) rating
+	// Rating from A to G, where A has the lowest emissions
+	EnergyGreenhouseGasRating string `yaml:"energy_greenhouse_gas_rating" json:"energy_greenhouse_gas_rating"`
+
+	// EnergyConsumption in kWh/m²/year (optional)
+	EnergyConsumption float64 `yaml:"energy_consumption,omitempty" json:"energy_consumption,omitempty"`
+
+	// GHGEmissions in kgCO2/m²/year (optional)
+	EnergyGHGEmissions float64 `yaml:"energy_ghg_emissions,omitempty" json:"energy_ghg_emissions,omitempty"`
+
+	// EnergyEstimatedAnnualConsumption is the estimated annual energy consumption of the good. Optional.
+	EnergyEstimatedAnnualConsumption string `yaml:"energy_estimated_annual_consumption,omitempty" json:"energy_estimated_annual_consumption,omitempty"`
+
+	// ----------
+	// Agency Information
+	// ----------
 
 	// AgencyName is the name of the agency. Optional.
 	AgencyName string `yaml:"agency_name,omitempty" json:"agency_name,omitempty"`
