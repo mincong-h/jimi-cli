@@ -137,6 +137,21 @@ type Good struct {
 	// Type is the type of the good. Required.
 	Type string `yaml:"type" json:"type" jsonschema:"enum=house,enum=apartment"` // house or apartment
 
+	// HasGarden indicates if the good has a garden. Optional.
+	HasGarden bool `yaml:"has_garden,omitempty" json:"has_garden,omitempty"`
+
+	// HasTerrace indicates if the good has a terrace. Optional.
+	HasTerrace bool `yaml:"has_terrace,omitempty" json:"has_terrace,omitempty"`
+
+	// HasBox indicates if the good has a box. Optional.
+	HasBox bool `yaml:"has_box,omitempty" json:"has_box,omitempty"`
+
+	// HasGarage indicates if the good has a garage. Optional.
+	HasGarage bool `yaml:"has_garage,omitempty" json:"has_garage,omitempty"`
+
+	// ConstructionYear indicates the year of construction of the good. Optional.
+	ConstructionYear int `yaml:"construction_year,omitempty" json:"construction_year,omitempty"`
+
 	// ----------
 	// Location Intelligence
 	// ----------
@@ -149,6 +164,12 @@ type Good struct {
 
 	// ZipCode is the zip code of the good. Required.
 	ZipCode string `yaml:"zip_code" json:"zip_code"`
+
+	// DistanceByWalkToRer is the distance to the nearest RER station. Optional.
+	DistanceByWalkToRer string `yaml:"distance_by_walk_to_rer,omitempty" json:"distance_by_walk_to_rer,omitempty"`
+
+	// DistanceByWalkToBus is the distance to the nearest bus station. Optional.
+	DistanceByWalkToBus string `yaml:"distance_by_walk_to_bus,omitempty" json:"distance_by_walk_to_bus,omitempty"`
 
 	// ----------
 	// Energy And Diagnosis
