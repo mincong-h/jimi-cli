@@ -88,18 +88,18 @@ type Mortgage struct {
 }
 
 type Good struct {
-	Name          string  `yaml:"name"`
-	Price         float64 `yaml:"price"`
-	Address       string  `yaml:"address"`
-	Link          string  `yaml:"link"`
-	LivingSpaceM2 float64 `yaml:"living_space_m2"` // loi carrez
-	LandSurfaceM2 float64 `yaml:"land_surface_m2"`
-	Pieces        int     `yaml:"pieces"`
-	Rooms         int     `yaml:"rooms"`
-	PropertyTax   float64 `yaml:"property_tax"` // annual
-	ZipCode       string  `yaml:"zip_code"`
-	Type          string  `yaml:"type"` // house or apartment
-	Comment       string  `yaml:"comment"`
+	Name          string  `yaml:"name" json:"name"`
+	Price         float64 `yaml:"price" json:"price"`
+	Address       string  `yaml:"address" json:"address"`
+	Link          string  `yaml:"link" json:"link"`
+	LivingSpaceM2 float64 `yaml:"living_space_m2" json:"living_space_m2"` // loi carrez
+	LandSurfaceM2 float64 `yaml:"land_surface_m2" json:"land_surface_m2"`
+	Pieces        int     `yaml:"pieces" json:"pieces"`
+	Rooms         int     `yaml:"rooms" json:"rooms"`
+	PropertyTax   float64 `yaml:"property_tax" json:"property_tax"` // annual
+	ZipCode       string  `yaml:"zip_code" json:"zip_code"`
+	Type          string  `yaml:"type" json:"type"` // house or apartment
+	Comment       string  `yaml:"comment" json:"comment"`
 }
 
 func (g Good) PricePerM2() float64 {
