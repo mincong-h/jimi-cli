@@ -54,12 +54,24 @@ Additional required information:
 * Historical price evolution in the neighborhood
 * Potential rental yields if relevant
 
-### Technical Dimension
+### Property Characteristics
 
-**Definition:** Assessment of the property's structural integrity and technical specifications.
+**Definition:** Assessment of the property's structural integrity and technical specifications. The physical attributes of the house, including its size, layout, and features.
 
-**Interest:** Evaluates maintenance requirements and potential renovation costs.
-Information from listings: DPE rating, construction year, recent renovations, materials used.
+**Interest:** Evaluates maintenance requirements and potential renovation costs. Ensures the house meets your practical needs and aligns with market expectations for resale.
+
+Information from listings:
+
+* DPE rating
+* Construction year
+* Recent renovations
+* Materials used
+* Total living area (in square meters).
+* Number and type of rooms (bedrooms, bathrooms, living spaces).
+* Floor plan details (layout and orientation).
+* Outdoor space (garden, balcony, terrace).
+* Year of construction and building materials.
+* Recent renovations or updates.
 
 Additional required information:
 
@@ -67,6 +79,9 @@ Additional required information:
 * Building permit history
 * Copropriété meeting minutes (if applicable)
 * Documentation of any recent works
+* Verify the accuracy of square footage via floor plans or cadastral maps.
+* Assess the structural condition (e.g., insulation, roofing).
+* Evaluate compliance with modern building codes.
 
 ### Location Intelligence
 
