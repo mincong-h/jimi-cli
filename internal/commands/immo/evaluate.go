@@ -78,7 +78,7 @@ func printResult(result EvaluationResult) {
 	println(string(data))
 }
 
-func evaluate(ctx EvaluationContext, good Good) EvaluationResult {
+func evaluate(ctx EvaluationContext, good Property) EvaluationResult {
 	var alerts []string
 
 	// Assume the agent fees are included in the price of the good.

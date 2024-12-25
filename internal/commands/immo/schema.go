@@ -15,7 +15,7 @@ var showSchemaCmd = &cobra.Command{
 }
 
 func runShowSchema(cmd *cobra.Command, args []string) {
-	schema := jsonschema.Reflect(&Good{})
+	schema := jsonschema.Reflect(&Property{})
 	schemaJSON, _ := json.MarshalIndent(schema, "", "  ")
 	fmt.Println(string(schemaJSON))
 }
