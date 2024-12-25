@@ -290,7 +290,14 @@ dist/jimi immo show-schema | jq '."$defs".Good'
 
 > [!NOTE]
 >
-> Different from JSON Schema, Vertesia does not support `enum` in their editor.
+> * Different from JSON Schema, Vertesia does not support `enum` in their editor.
+> * The generated metadata is immutable. Manual edits on an existing object is not supported. If you found any mistake, you need to delete the object, update the schema to provide better hint to Vertesia, and generate the content again.
+
+### Extraction
+
+* Export the offer from <https://seloger.com> as PDF, save it locally.
+* Drag and drop the PDF into the "Content - Objects" view, select the content type "Real Estate Offer".
+* Wait until the processing to be done, it may take tens of seconds.
 
 ## References
 
