@@ -149,3 +149,38 @@ Additional required required:
 * Development pipeline in the area (research planned infrastructure improvements that may impact property value)
 * Demographic trends
 * Investigate historical price trends in the area
+
+### Lifestyle and Fit
+
+**Definition:** How well the property aligns with your personal and family needs.
+
+**Interest:** Ensures the property supports your lifestyle preferences and long-term goals.
+
+**Information to Extract from Listing:**
+
+* Space suitability for current and future needs.
+* Amenities that enhance quality of life (e.g., swimming pool, smart home features).
+* Neighborhood culture and vibe.
+
+**Additional Information Needed:**
+
+* Evaluate your future plans (e.g., family expansion, remote work).
+* Interview neighbors or visit the area at different times of day.
+
+## Risks and Downsides
+
+**Definition:** Potential challenges or negative aspects of the property.
+
+**Interest:** Identifying red flags early helps avoid costly surprises after purchase.
+
+**Information to Extract from Listing:**
+
+* Any noted defects or repairs needed.
+* Location-specific risks (e.g., flooding, subsidence).
+* Mention of unusual terms or conditions in the sale.
+
+**Additional Information Needed:**
+
+* Commission a professional home inspection.
+* Research environmental risks using government databases.
+* Analyze the neighborhood’s long-term desirability.
