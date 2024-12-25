@@ -288,6 +288,10 @@ dist/jimi immo show-schema | jq '."$defs".Good'
 }
 ```
 
+> [!NOTE]
+>
+> Different from JSON Schema, Vertesia does not support `enum` in their editor.
+
 ## References
 
 - [Introduction to Prompt Engineering | OpenAI Workshop](https://github.com/microsoft/OpenAIWorkshop/blob/main/scenarios/prompt_engineering/01_Prompt_Introduction.md)
