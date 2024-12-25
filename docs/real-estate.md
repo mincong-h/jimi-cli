@@ -213,58 +213,58 @@ dist/jimi immo show-schema | jq '."$defs".Good'
 ```json
 {
   "properties": {
-    "Name": {
+    "name": {
       "type": "string"
     },
-    "Price": {
+    "price": {
       "type": "number"
     },
-    "Address": {
+    "address": {
       "type": "string"
     },
-    "Link": {
+    "link": {
       "type": "string"
     },
-    "LivingSpaceM2": {
+    "living_space_m2": {
       "type": "number"
     },
-    "LandSurfaceM2": {
+    "land_surface_m2": {
       "type": "number"
     },
-    "Pieces": {
+    "pieces": {
       "type": "integer"
     },
-    "Rooms": {
+    "rooms": {
       "type": "integer"
     },
-    "PropertyTax": {
+    "property_tax": {
       "type": "number"
     },
-    "ZipCode": {
+    "zip_code": {
       "type": "string"
     },
-    "Type": {
+    "type": {
       "type": "string"
     },
-    "Comment": {
+    "comment": {
       "type": "string"
     }
   },
   "additionalProperties": false,
   "type": "object",
   "required": [
-    "Name",
-    "Price",
-    "Address",
-    "Link",
-    "LivingSpaceM2",
-    "LandSurfaceM2",
-    "Pieces",
-    "Rooms",
-    "PropertyTax",
-    "ZipCode",
-    "Type",
-    "Comment"
+    "name",
+    "price",
+    "address",
+    "link",
+    "living_space_m2",
+    "land_surface_m2",
+    "pieces",
+    "rooms",
+    "property_tax",
+    "zip_code",
+    "type",
+    "comment"
   ]
 }
 ```
