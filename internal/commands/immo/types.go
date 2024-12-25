@@ -129,10 +129,10 @@ type Good struct {
 	LandSurfaceM2 float64 `yaml:"land_surface_m2" json:"land_surface_m2"`
 
 	// RoomCount is the number of rooms. Required.
-	RoomCount int `yaml:"room_cout" json:"room_cout"`
+	RoomCount int `yaml:"room_count" json:"room_count"`
 
 	// BedroomCount is the number of bedrooms. Required.
-	BedroomCount int `yaml:"bedroom_cout" json:"bedroom_cout"`
+	BedroomCount int `yaml:"bedroom_count" json:"bedroom_count"`
 
 	// Type is the type of the good. Required.
 	Type string `yaml:"type" json:"type" jsonschema:"enum=house,enum=apartment"` // house or apartment
