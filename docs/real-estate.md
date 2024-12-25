@@ -247,7 +247,11 @@ dist/jimi immo show-schema | jq '."$defs".Good'
       "type": "string"
     },
     "type": {
-      "type": "string"
+      "type": "string",
+      "enum": [
+        "house",
+        "apartment"
+      ]
     }
   },
   "additionalProperties": false,

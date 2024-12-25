@@ -128,7 +128,7 @@ type Good struct {
 	ZipCode string `yaml:"zip_code" json:"zip_code"`
 
 	// Type is the type of the good. Required.
-	Type string `yaml:"type" json:"type"` // house or apartment
+	Type string `yaml:"type" json:"type" jsonschema:"enum=house,enum=apartment"` // house or apartment
 
 	// Comment is a comment about the good. Optional.
 	//
