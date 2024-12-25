@@ -135,11 +135,17 @@ Additional required required:
 
 **Definition:** Analysis of current and projected market conditions.
 
-**Interest:** Positions the property within broader market trends. Information from listings: Time on market, price adjustments.
+**Interest:** Positions the property within broader market trends. Helps gauge the property’s potential for appreciation and the likelihood of a favorable resale.
 
-Additional required information:
+**Information from listings:**
 
-* Transaction volume trends
+* Time on market (indicating demand)
+* Comparable properties' sale history
+
+**Additional required information:**
+
+* Transaction volume trends (study local supply and demand trends)
 * Local market absorption rates
-* Development pipeline in the area
+* Development pipeline in the area (research planned infrastructure improvements that may impact property value)
 * Demographic trends
+* Investigate historical price trends in the area
