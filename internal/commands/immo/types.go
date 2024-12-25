@@ -7,7 +7,7 @@ type ImmoConfig struct {
 	EstimatedMortgages []Mortgage `yaml:"estimated_mortgages"`
 
 	// Goods is the list of goods to evaluate.
-	Goods []Good `yaml:"goods"`
+	Goods []Property `yaml:"goods"`
 
 	// CityStats are statistics of the city where the goods are located.
 	CityStats []CityStats `yaml:"cities"`
@@ -87,7 +87,7 @@ type Mortgage struct {
 	Comment      string  `yaml:"comment"`
 }
 
-type Good struct {
+type Property struct {
 	// ----------
 	// General Information
 	// ----------
@@ -134,8 +134,14 @@ type Good struct {
 	// BedroomCount is the number of bedrooms. Required.
 	BedroomCount int `yaml:"bedroom_count" json:"bedroom_count"`
 
+	// WcCount is the number of bathrooms. Optional.
+	WcCount int `yaml:"wc_count,omitempty" json:"wc_count,omitempty"`
+
 	// Type is the type of the good. Required.
 	Type string `yaml:"type" json:"type" jsonschema:"enum=house,enum=apartment"` // house or apartment
+
+	// HasBalcony indicates if the good has a balcony. Optional.
+	HasBalcony bool `yaml:"has_balcony,omitempty" json:"has_balcony,omitempty"`
 
 	// HasGarden indicates if the good has a garden. Optional.
 	HasGarden bool `yaml:"has_garden,omitempty" json:"has_garden,omitempty"`
@@ -159,11 +165,14 @@ type Good struct {
 	// Location Intelligence
 	// ----------
 
-	// GoodAddress is the address of the good. Optional.
+	// PropertyNeighborhood is the neighborhood of the good. Optional.
+	PropertyNeighborhood string `yaml:"property_neighborhood,omitempty" json:"property_neighborhood,omitempty"`
+
+	// PropertyAddress is the address of the property. Optional.
 	//
 	// This field is optional because most of the real estate websites do not provide the address.
 	// However, we can fill it manually in the configuration file after the first visit.
-	GoodAddress string `yaml:"good_address,omitempty" json:"good_address,omitempty"`
+	PropertyAddress string `yaml:"property_address,omitempty" json:"property_address,omitempty"`
 
 	// ZipCode is the zip code of the good. Required.
 	ZipCode string `yaml:"zip_code" json:"zip_code"`
@@ -223,6 +232,6 @@ type Good struct {
 	Comment string `yaml:"comment" json:"-"`
 }
 
-func (g Good) PricePerM2() float64 {
-	return g.Price / g.LivingSpaceLoiCarrezM2
+func (p Property) PricePerM2() float64 {
+	return p.Price / p.LivingSpaceLoiCarrezM2
 }
