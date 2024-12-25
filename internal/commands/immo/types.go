@@ -113,13 +113,27 @@ type Good struct {
 	// It excludes areas with a ceiling height below 1.8 meters.
 	LivingSpaceLoiCarrezM2 float64 `yaml:"living_space_loi_carrez_m2" json:"living_space_loi_carrez_m2"`
 
+	// LandSurfaceM2 is the land surface in square meters. Required.
 	LandSurfaceM2 float64 `yaml:"land_surface_m2" json:"land_surface_m2"`
-	Pieces        int     `yaml:"pieces" json:"pieces"`
-	Rooms         int     `yaml:"rooms" json:"rooms"`
-	PropertyTax   float64 `yaml:"property_tax" json:"property_tax"` // annual
-	ZipCode       string  `yaml:"zip_code" json:"zip_code"`
-	Type          string  `yaml:"type" json:"type"` // house or apartment
-	Comment       string  `yaml:"comment" json:"comment"`
+
+	// Rooms is the number of rooms. Required.
+	Rooms int `yaml:"rooms" json:"rooms"`
+
+	// Bedrooms is the number of bedrooms. Required.
+	Bedrooms int `yaml:"bedrooms" json:"bedrooms"`
+
+	PropertyTax float64 `yaml:"property_tax" json:"property_tax"` // annual
+
+	// ZipCode is the zip code of the good. Required.
+	ZipCode string `yaml:"zip_code" json:"zip_code"`
+
+	// Type is the type of the good. Required.
+	Type string `yaml:"type" json:"type"` // house or apartment
+
+	// Comment is a comment about the good. Optional.
+	//
+	// This is only used in the configuration file.
+	Comment string `yaml:"comment" json:"-"`
 }
 
 func (g Good) PricePerM2() float64 {
