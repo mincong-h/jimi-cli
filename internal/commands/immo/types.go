@@ -88,10 +88,21 @@ type Mortgage struct {
 }
 
 type Good struct {
-	Name          string  `yaml:"name" json:"name"`
-	Price         float64 `yaml:"price" json:"price"`
-	Address       string  `yaml:"address" json:"address"`
-	Link          string  `yaml:"link" json:"link"`
+	// Name is the name of the good. Required.
+	Name string `yaml:"name" json:"name"`
+
+	// Price is the price of the good shown in the offer. Required.
+	Price float64 `yaml:"price" json:"price"`
+
+	// Address is the address of the good. Optional.
+	//
+	// This field is optional because most of the real estate websites do not provide the address.
+	// However, we can fill it manually in the configuration file after the first visit.
+	Address string `yaml:"address,omitempty" json:"address,omitempty"`
+
+	// Link is the link to the offer. Required.
+	Link string `yaml:"link" json:"link"`
+
 	LivingSpaceM2 float64 `yaml:"living_space_m2" json:"living_space_m2"` // loi carrez
 	LandSurfaceM2 float64 `yaml:"land_surface_m2" json:"land_surface_m2"`
 	Pieces        int     `yaml:"pieces" json:"pieces"`
