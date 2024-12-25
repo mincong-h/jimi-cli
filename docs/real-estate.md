@@ -113,14 +113,23 @@ Additional required required:
 
 **Definition:** Review of all legal aspects and administrative constraints.
 
-**Interest:** Identifies potential roadblocks and future constraints. Information from listings: Property rights type, urbanisme constraints.
+**Interest:** Identifies potential roadblocks and future constraints. Avoid potential legal issues that could delay the purchase or devalue the property.
+
+**Information from listings:**
+
+* Property rights type (full ownership vs. co-op)
+* Any legal disputes or liens on the property
+* Urbanisme constraints
+* Compliance with zoning laws and permits for existing structures.
 
 **Additional required information:**
 
 * Full notarial documentation
+* Confirm no ongoing disputes with neighbors or co-owners
 * Servitudes and easements
 * Cadastral extracts
 * PPRI (flood risk) zoning
+* Check the minutes of recent HOA meetings for red flags
 
 ### Market Dynamics
 
