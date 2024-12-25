@@ -88,23 +88,32 @@ type Mortgage struct {
 }
 
 type Good struct {
+	// ----------
+	// General Information
+	// ----------
+
 	// Name is the name of the good. Required.
 	Name string `yaml:"name" json:"name"`
-
-	// Price is the price of the good shown in the offer. Required.
-	Price float64 `yaml:"price" json:"price"`
-
-	// GoodAddress is the address of the good. Optional.
-	//
-	// This field is optional because most of the real estate websites do not provide the address.
-	// However, we can fill it manually in the configuration file after the first visit.
-	GoodAddress string `yaml:"good_address,omitempty" json:"good_address,omitempty"`
 
 	// OfferUrl is the link to the offer. Required.
 	OfferUrl string `yaml:"offer_url" json:"offer_url"`
 
 	// OfferDescription is the description of the offer. Required.
 	OfferDescription string `yaml:"offer_description" json:"offer_description"`
+
+	// ----------
+	// Financials
+	// ----------
+
+	// Price is the price of the good shown in the offer. Required.
+	Price float64 `yaml:"price" json:"price"`
+
+	// BathroomCount is the number of bathrooms. Optional.
+	AnnualPropertyTax float64 `yaml:"annual_property_tax,omitempty" json:"annual_property_tax,omitempty"`
+
+	// ----------
+	// Property Characteristics
+	// ----------
 
 	// TotalLivingSpaceM2 is the total living space in square meters. Required.
 	//
@@ -125,14 +134,21 @@ type Good struct {
 	// BedroomCount is the number of bedrooms. Required.
 	BedroomCount int `yaml:"bedroom_cout" json:"bedroom_cout"`
 
-	// BathroomCount is the number of bathrooms. Optional.
-	AnnualPropertyTax float64 `yaml:"annual_property_tax,omitempty" json:"annual_property_tax,omitempty"`
+	// Type is the type of the good. Required.
+	Type string `yaml:"type" json:"type" jsonschema:"enum=house,enum=apartment"` // house or apartment
+
+	// ----------
+	// Location Intelligence
+	// ----------
+
+	// GoodAddress is the address of the good. Optional.
+	//
+	// This field is optional because most of the real estate websites do not provide the address.
+	// However, we can fill it manually in the configuration file after the first visit.
+	GoodAddress string `yaml:"good_address,omitempty" json:"good_address,omitempty"`
 
 	// ZipCode is the zip code of the good. Required.
 	ZipCode string `yaml:"zip_code" json:"zip_code"`
-
-	// Type is the type of the good. Required.
-	Type string `yaml:"type" json:"type" jsonschema:"enum=house,enum=apartment"` // house or apartment
 
 	// ----------
 	// Energy And Diagnosis
