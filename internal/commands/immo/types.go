@@ -94,14 +94,17 @@ type Good struct {
 	// Price is the price of the good shown in the offer. Required.
 	Price float64 `yaml:"price" json:"price"`
 
-	// Address is the address of the good. Optional.
+	// GoodAddress is the address of the good. Optional.
 	//
 	// This field is optional because most of the real estate websites do not provide the address.
 	// However, we can fill it manually in the configuration file after the first visit.
-	Address string `yaml:"address,omitempty" json:"address,omitempty"`
+	GoodAddress string `yaml:"good_address,omitempty" json:"good_address,omitempty"`
 
-	// Link is the link to the offer. Required.
-	Link string `yaml:"link" json:"link"`
+	// OfferUrl is the link to the offer. Required.
+	OfferUrl string `yaml:"offer_url" json:"offer_url"`
+
+	// OfferDescription is the description of the offer. Required.
+	OfferDescription string `yaml:"offer_description" json:"offer_description"`
 
 	// TotalLivingSpaceM2 is the total living space in square meters. Required.
 	//
@@ -116,19 +119,32 @@ type Good struct {
 	// LandSurfaceM2 is the land surface in square meters. Required.
 	LandSurfaceM2 float64 `yaml:"land_surface_m2" json:"land_surface_m2"`
 
-	// Rooms is the number of rooms. Required.
-	Rooms int `yaml:"rooms" json:"rooms"`
+	// RoomCount is the number of rooms. Required.
+	RoomCount int `yaml:"room_cout" json:"room_cout"`
 
-	// Bedrooms is the number of bedrooms. Required.
-	Bedrooms int `yaml:"bedrooms" json:"bedrooms"`
+	// BedroomCount is the number of bedrooms. Required.
+	BedroomCount int `yaml:"bedroom_cout" json:"bedroom_cout"`
 
-	PropertyTax float64 `yaml:"property_tax" json:"property_tax"` // annual
+	// BathroomCount is the number of bathrooms. Optional.
+	AnnualPropertyTax float64 `yaml:"annual_property_tax,omitempty" json:"annual_property_tax,omitempty"`
 
 	// ZipCode is the zip code of the good. Required.
 	ZipCode string `yaml:"zip_code" json:"zip_code"`
 
 	// Type is the type of the good. Required.
 	Type string `yaml:"type" json:"type" jsonschema:"enum=house,enum=apartment"` // house or apartment
+
+	// EnergyDpeClass is the energy DPE class of the good. Required.
+	EnergyDpeClass string `yaml:"energy_dpe_class" json:"energy_dpe_class"`
+
+	// AgencyName is the name of the agency. Optional.
+	AgencyName string `yaml:"agency_name,omitempty" json:"agency_name,omitempty"`
+
+	// AgencyEmail is the email of the agency. Optional.
+	AgencyEmail string `yaml:"agency_email,omitempty" json:"agency_email,omitempty"`
+
+	// AgencyTel is the phone number of the agency. Optional.
+	AgencyTel string `yaml:"agency_tel,omitempty" json:"agency_tel,omitempty"`
 
 	// Comment is a comment about the good. Optional.
 	//
