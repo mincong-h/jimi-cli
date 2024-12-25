@@ -204,6 +204,71 @@ We rely on [Vertesia AI](https://vertesiahq.com/) to extract metadata from any r
 
 The offer schema is defined in this Git repository and upload to Vertesia. We don't rely on the editor of the platform because we need to put additional comments for each field to justify its presence.
 
+Export the schema using the following command:
+
+```sh
+dist/jimi immo show-schema | jq '."$defs".Good'
+```
+
+```json
+{
+  "properties": {
+    "Name": {
+      "type": "string"
+    },
+    "Price": {
+      "type": "number"
+    },
+    "Address": {
+      "type": "string"
+    },
+    "Link": {
+      "type": "string"
+    },
+    "LivingSpaceM2": {
+      "type": "number"
+    },
+    "LandSurfaceM2": {
+      "type": "number"
+    },
+    "Pieces": {
+      "type": "integer"
+    },
+    "Rooms": {
+      "type": "integer"
+    },
+    "PropertyTax": {
+      "type": "number"
+    },
+    "ZipCode": {
+      "type": "string"
+    },
+    "Type": {
+      "type": "string"
+    },
+    "Comment": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "type": "object",
+  "required": [
+    "Name",
+    "Price",
+    "Address",
+    "Link",
+    "LivingSpaceM2",
+    "LandSurfaceM2",
+    "Pieces",
+    "Rooms",
+    "PropertyTax",
+    "ZipCode",
+    "Type",
+    "Comment"
+  ]
+}
+```
+
 ## References
 
 - [Introduction to Prompt Engineering | OpenAI Workshop](https://github.com/microsoft/OpenAIWorkshop/blob/main/scenarios/prompt_engineering/01_Prompt_Introduction.md)
