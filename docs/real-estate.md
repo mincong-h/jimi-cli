@@ -216,17 +216,17 @@ dist/jimi immo show-schema | jq '."$defs".Good'
     "name": {
       "type": "string"
     },
-    "price": {
-      "type": "number"
-    },
-    "good_address": {
-      "type": "string"
-    },
     "offer_url": {
       "type": "string"
     },
     "offer_description": {
       "type": "string"
+    },
+    "price": {
+      "type": "number"
+    },
+    "annual_property_tax": {
+      "type": "number"
     },
     "total_living_space_m2": {
       "type": "number"
@@ -243,12 +243,6 @@ dist/jimi immo show-schema | jq '."$defs".Good'
     "bedroom_cout": {
       "type": "integer"
     },
-    "annual_property_tax": {
-      "type": "number"
-    },
-    "zip_code": {
-      "type": "string"
-    },
     "type": {
       "type": "string",
       "enum": [
@@ -256,7 +250,55 @@ dist/jimi immo show-schema | jq '."$defs".Good'
         "apartment"
       ]
     },
-    "energy_dpe_class": {
+    "has_garden": {
+      "type": "boolean"
+    },
+    "has_terrace": {
+      "type": "boolean"
+    },
+    "has_box": {
+      "type": "boolean"
+    },
+    "has_garage": {
+      "type": "boolean"
+    },
+    "construction_year": {
+      "type": "integer"
+    },
+    "good_address": {
+      "type": "string"
+    },
+    "zip_code": {
+      "type": "string"
+    },
+    "distance_by_walk_to_rer": {
+      "type": "string"
+    },
+    "distance_by_walk_to_bus": {
+      "type": "string"
+    },
+    "heating_system": {
+      "type": "string"
+    },
+    "heating_type": {
+      "type": "string"
+    },
+    "heating_method": {
+      "type": "string"
+    },
+    "energy_performance_rating": {
+      "type": "string"
+    },
+    "energy_greenhouse_gas_rating": {
+      "type": "string"
+    },
+    "energy_consumption": {
+      "type": "number"
+    },
+    "energy_ghg_emissions": {
+      "type": "number"
+    },
+    "energy_estimated_annual_consumption": {
       "type": "string"
     },
     "agency_name": {
@@ -273,17 +315,21 @@ dist/jimi immo show-schema | jq '."$defs".Good'
   "type": "object",
   "required": [
     "name",
-    "price",
     "offer_url",
     "offer_description",
+    "price",
     "total_living_space_m2",
     "living_space_loi_carrez_m2",
     "land_surface_m2",
     "room_cout",
     "bedroom_cout",
-    "zip_code",
     "type",
-    "energy_dpe_class"
+    "zip_code",
+    "heating_system",
+    "heating_type",
+    "heating_method",
+    "energy_performance_rating",
+    "energy_greenhouse_gas_rating"
   ]
 }
 ```
