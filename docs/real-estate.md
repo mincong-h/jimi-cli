@@ -225,16 +225,19 @@ dist/jimi immo show-schema | jq '."$defs".Good'
     "link": {
       "type": "string"
     },
-    "living_space_m2": {
+    "total_living_space_m2": {
+      "type": "number"
+    },
+    "living_space_loi_carrez_m2": {
       "type": "number"
     },
     "land_surface_m2": {
       "type": "number"
     },
-    "pieces": {
+    "rooms": {
       "type": "integer"
     },
-    "rooms": {
+    "bedrooms": {
       "type": "integer"
     },
     "property_tax": {
@@ -245,9 +248,6 @@ dist/jimi immo show-schema | jq '."$defs".Good'
     },
     "type": {
       "type": "string"
-    },
-    "comment": {
-      "type": "string"
     }
   },
   "additionalProperties": false,
@@ -255,16 +255,15 @@ dist/jimi immo show-schema | jq '."$defs".Good'
   "required": [
     "name",
     "price",
-    "address",
     "link",
-    "living_space_m2",
+    "total_living_space_m2",
+    "living_space_loi_carrez_m2",
     "land_surface_m2",
-    "pieces",
     "rooms",
+    "bedrooms",
     "property_tax",
     "zip_code",
-    "type",
-    "comment"
+    "type"
   ]
 }
 ```
