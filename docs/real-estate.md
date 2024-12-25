@@ -205,7 +205,7 @@ The offer schema is defined in this Git repository and upload to Vertesia. We do
 Export the schema using the following command:
 
 ```sh
-dist/jimi immo show-schema | jq '."$defs".Good'
+dist/jimi immo show-schema | jq '."$defs".Property'
 ```
 
 ```json
@@ -235,10 +235,13 @@ dist/jimi immo show-schema | jq '."$defs".Good'
     "land_surface_m2": {
       "type": "number"
     },
-    "room_cout": {
+    "room_count": {
       "type": "integer"
     },
-    "bedroom_cout": {
+    "bedroom_count": {
+      "type": "integer"
+    },
+    "wc_count": {
       "type": "integer"
     },
     "type": {
@@ -247,6 +250,9 @@ dist/jimi immo show-schema | jq '."$defs".Good'
         "house",
         "apartment"
       ]
+    },
+    "has_balcony": {
+      "type": "boolean"
     },
     "has_garden": {
       "type": "boolean"
@@ -263,7 +269,16 @@ dist/jimi immo show-schema | jq '."$defs".Good'
     "construction_year": {
       "type": "integer"
     },
-    "good_address": {
+    "recent_renovations_or_updates": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "property_neighborhood": {
+      "type": "string"
+    },
+    "property_address": {
       "type": "string"
     },
     "zip_code": {
@@ -319,8 +334,8 @@ dist/jimi immo show-schema | jq '."$defs".Good'
     "total_living_space_m2",
     "living_space_loi_carrez_m2",
     "land_surface_m2",
-    "room_cout",
-    "bedroom_cout",
+    "room_count",
+    "bedroom_count",
     "type",
     "zip_code",
     "heating_system",
