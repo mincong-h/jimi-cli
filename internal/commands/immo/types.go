@@ -103,7 +103,16 @@ type Good struct {
 	// Link is the link to the offer. Required.
 	Link string `yaml:"link" json:"link"`
 
-	LivingSpaceM2 float64 `yaml:"living_space_m2" json:"living_space_m2"` // loi carrez
+	// TotalLivingSpaceM2 is the total living space in square meters. Required.
+	//
+	// It includes areas with a ceiling height below 1.8 meters
+	TotalLivingSpaceM2 float64 `yaml:"total_living_space_m2" json:"total_living_space_m2"`
+
+	// LivingSpaceLoiCarrezM2 is the living space in square meters respecting loi-carrez. Required.
+	//
+	// It excludes areas with a ceiling height below 1.8 meters.
+	LivingSpaceLoiCarrezM2 float64 `yaml:"living_space_loi_carrez_m2" json:"living_space_loi_carrez_m2"`
+
 	LandSurfaceM2 float64 `yaml:"land_surface_m2" json:"land_surface_m2"`
 	Pieces        int     `yaml:"pieces" json:"pieces"`
 	Rooms         int     `yaml:"rooms" json:"rooms"`
@@ -114,5 +123,5 @@ type Good struct {
 }
 
 func (g Good) PricePerM2() float64 {
-	return g.Price / g.LivingSpaceM2
+	return g.Price / g.LivingSpaceLoiCarrezM2
 }
