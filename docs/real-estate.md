@@ -70,9 +70,16 @@ Additional required information:
 
 ### Location Intelligence
 
-**Definition:** Analysis of the property's geographical and infrastructural context.
+**Definition:** Analysis of the property's geographical and infrastructural context. The geographic positioning of the house, its proximity to amenities, and the ease of accessing major transportation networks.
 
-**Interest:** Evaluates long-term value drivers and quality of life aspects. Information from listings: Proximity to transport, neighborhood description.
+**Interest:** Evaluates long-term value drivers and quality of life aspects. Location directly impacts lifestyle, commute, and property value appreciation. Proximity to desirable areas or landmarks can make the property more attractive and maintain its value over time.
+
+Information from listings:
+
+* Neighborhood description
+* Address or approximate location
+* Distance to public transportation (e.g., metro, RER, bus)
+* Proximity to schools, hospitals, supermarkets, and parks.
 
 Additional required required:
 
