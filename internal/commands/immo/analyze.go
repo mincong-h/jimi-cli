@@ -1,6 +1,7 @@
 package immo
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
 	"os"
@@ -15,13 +16,36 @@ var analyzeCmd = &cobra.Command{
 	RunE:  runAnalyze,
 }
 
-var analysisInteractions = map[string]string{
-	"Renovation":               "mhuang-seloger:RenovationAnalysis",
-	"Location Intelligence":    "mhuang-seloger:LocationIntelligenceAnalysis",
-	"Legal And Administrative": "mhuang-seloger:LegalAndAdministrativeAnalysis",
-	"Market Dynamics":          "mhuang-seloger:MarketDynamicsAnalysis",
-	"Lifestyle and Fit":        "mhuang-seloger:LifestyleAndFitAnalysis",
-	"Risks":                    "mhuang-seloger:RisksAnalysis",
+type analysisInteraction struct {
+	section     string
+	interaction string
+}
+
+var analysisInteractions = []analysisInteraction{
+	{
+		section:     "1. Renovation",
+		interaction: "mhuang-seloger:RenovationAnalysis",
+	},
+	{
+		section:     "2. Location Intelligence",
+		interaction: "mhuang-seloger:LocationIntelligenceAnalysis",
+	},
+	{
+		section:     "3. Legal And Administrative",
+		interaction: "mhuang-seloger:LegalAndAdministrativeAnalysis",
+	},
+	{
+		section:     "4. Market Dynamics",
+		interaction: "mhuang-seloger:MarketDynamicsAnalysis",
+	},
+	{
+		section:     "5. Lifestyle and Fit",
+		interaction: "mhuang-seloger:LifestyleAndFitAnalysis",
+	},
+	{
+		section:     "6. Risks",
+		interaction: "mhuang-seloger:RisksAnalysis",
+	},
 }
 
 func runAnalyze(cmd *cobra.Command, args []string) error {
@@ -30,7 +54,7 @@ func runAnalyze(cmd *cobra.Command, args []string) error {
 	}
 	var (
 		property = args[0]
-		fileName = fmt.Sprintf("analysis-%s.md", property)
+		fileName = fmt.Sprintf(".jimi/analysis-%s.md", property)
 	)
 
 	f, err := os.OpenFile(fileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
@@ -40,20 +64,32 @@ func runAnalyze(cmd *cobra.Command, args []string) error {
 	defer f.Close()
 
 	fmt.Printf("Analyzing real-estate listing %q...\n", property)
-	for header, interaction := range analysisInteractions {
-		if _, err := f.WriteString(fmt.Sprintf("## %s\n\n", header)); err != nil {
-			return fmt.Errorf("failed to write header: %w", err)
-		}
+	for _, a := range analysisInteractions {
+		var (
+			out     bytes.Buffer
+			bashCmd = fmt.Sprintf(`composable run %s --data '{"real_estate_listing": "store:%s"}'`, a.interaction, property)
+		)
 
-		bashCmd := fmt.Sprintf(`composable run %s --data '{"real_estate_listing": "store:%s"}'`, interaction, property)
 		fmt.Println(bashCmd)
 		interaction := exec.Command("bash", "-c", bashCmd)
-		interaction.Stdout = f
+		interaction.Stdout = &out
 		interaction.Stderr = os.Stderr
+
 		if err := interaction.Run(); err != nil {
 			fmt.Printf("Failed to analyze: %v\n", err)
 			return fmt.Errorf("failed to analyze: %w", err)
 		}
+
+		if _, err := f.WriteString(fmt.Sprintf("## %s\n\n", a.section)); err != nil {
+			return fmt.Errorf("failed to write header: %w", err)
+		}
+		if _, err := f.Write(out.Bytes()); err != nil {
+			return fmt.Errorf("failed to write content: %w", err)
+		}
+		if _, err := f.WriteString("\n\n"); err != nil {
+			return fmt.Errorf("failed to write end: %w", err)
+		}
+
 		fmt.Println("---")
 		fmt.Println()
 	}
