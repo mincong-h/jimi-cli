@@ -13,6 +13,7 @@ func runImmo(cmd *cobra.Command, args []string) error {
 }
 
 func init() {
+	ImmoCmd.AddCommand(analyzeCmd)
 	ImmoCmd.AddCommand(evaluateCmd)
 	ImmoCmd.AddCommand(showSchemaCmd)
 }
