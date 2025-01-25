@@ -11,6 +11,9 @@ type ImmoConfig struct {
 
 	// CityStats are statistics of the city where the goods are located.
 	CityStats []CityStats `yaml:"cities"`
+
+	// CurrentProperty is the context of the current property.
+	CurrentProperty CurrentPropertyContext `yaml:"current_property"`
 }
 
 type CityStats struct {
@@ -18,6 +21,15 @@ type CityStats struct {
 	ZipCode                    string  `yaml:"zip_code"`
 	HouseAveragePricePerM2     float64 `yaml:"house_average_price_per_m2"`
 	ApartmentAveragePricePerM2 float64 `yaml:"apartment_average_price_per_m2"`
+}
+
+type CurrentPropertyContext struct {
+	MonthlyMortgage   float64 `yaml:"monthly_mortgage"`
+	SurfaceM2         float64 `yaml:"surface_m2"`
+	MonthlyIncome     float64 `yaml:"monthly_income"`
+	MonthlyCharges    float64 `yaml:"monthly_charges"`
+	GestionFeesRate   float64 `yaml:"gestion_fees_rate"`
+	AnnualPropertyTax float64 `yaml:"annual_property_tax"`
 }
 
 // FamilyContext represents the family situation. It contains the common information
@@ -42,17 +54,19 @@ type FamilyContext struct {
 
 // EvaluationContext represents the context of an evaluation.
 type EvaluationContext struct {
-	Family    FamilyContext
-	Mortgage  Mortgage
-	CityStats map[string]CityStats // key: zip code
+	Family          FamilyContext
+	CurrentProperty CurrentPropertyContext
+	Mortgage        Mortgage
+	CityStats       map[string]CityStats // key: zip code
 }
 
 // EvaluationResult represents the result of an evaluation.
 type EvaluationResult struct {
-	PurchaseCost    PurchaseCost    `yaml:"purchase"`
-	OperationalCost OperationalCost `yaml:"maintenance"`
-	Performance     GoodPerformance `yaml:"performance"`
-	Alerts          []string        `yaml:"alerts"`
+	PurchaseCost    PurchaseCost       `yaml:"purchase"`
+	OperationalCost OperationalCost    `yaml:"maintenance"`
+	Performance     GoodPerformance    `yaml:"performance"`
+	Renting         RentingPerformance `yaml:"renting"`
+	Alerts          []string           `yaml:"alerts"`
 }
 
 type PurchaseCost struct {
@@ -69,6 +83,16 @@ type OperationalCost struct {
 	MonthlyExpensesDiff    string  `yaml:"monthly_expenses_diff"`
 	AnnualPropertyTax      float64 `yaml:"annual_property_tax"`
 	TotalAnnualHousingCost float64 `yaml:"total_annual_housing_cost"`
+}
+
+type RentingPerformance struct {
+	NetMonthlyGain    float64 `yaml:"net_monthly_gain"`
+	MonthlyMortgage   float64 `yaml:"monthly_mortgage"`
+	SurfaceM2         float64 `yaml:"surface_m2"`
+	MonthlyIncome     float64 `yaml:"monthly_income"`
+	MonthlyCharges    float64 `yaml:"monthly_charges"`
+	GestionFeesRate   float64 `yaml:"gestion_fees_rate"`
+	AnnualPropertyTax float64 `yaml:"annual_property_tax"`
 }
 
 type GoodPerformance struct {

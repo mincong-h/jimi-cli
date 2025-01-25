@@ -43,9 +43,10 @@ func runEvaluate(cmd *cobra.Command, args []string) {
 			fmt.Println("----------")
 
 			result := evaluate(EvaluationContext{
-				Family:    cfg.Family,
-				Mortgage:  mortgage,
-				CityStats: cityStats,
+				Family:          cfg.Family,
+				CurrentProperty: cfg.CurrentProperty,
+				Mortgage:        mortgage,
+				CityStats:       cityStats,
 			}, good)
 			printResult(result)
 		}
@@ -154,6 +155,23 @@ func evaluate(ctx EvaluationContext, good Property) EvaluationResult {
 	)
 	annualHousingCost := (monthlyHousingCharges+ctx.Mortgage.MonthlyCost)*12 + good.AnnualPropertyTax
 
+	// -----
+	// Renting: start
+	cp := ctx.CurrentProperty
+	// e.g. (1200-385)*(1-0.08) - 1378/12 - 920 = 635
+	rentingGain := (cp.MonthlyIncome-cp.MonthlyCharges)*(1-cp.GestionFeesRate) - cp.AnnualPropertyTax/12 - cp.MonthlyMortgage
+	renting := RentingPerformance{
+		NetMonthlyGain:    math.Round(rentingGain),
+		MonthlyMortgage:   cp.MonthlyMortgage,
+		SurfaceM2:         cp.SurfaceM2,
+		MonthlyIncome:     cp.MonthlyIncome,
+		MonthlyCharges:    cp.MonthlyCharges,
+		GestionFeesRate:   cp.GestionFeesRate,
+		AnnualPropertyTax: cp.AnnualPropertyTax,
+	}
+	// Renting: end
+	// -----
+
 	return EvaluationResult{
 		PurchaseCost: PurchaseCost{
 			MortgageAmount:    math.Round(ctx.Mortgage.Amount),
@@ -170,6 +188,7 @@ func evaluate(ctx EvaluationContext, good Property) EvaluationResult {
 			TotalAnnualHousingCost: math.Round(annualHousingCost),
 		},
 		Performance: performance,
+		Renting:     renting,
 		Alerts:      alerts,
 	}
 }
