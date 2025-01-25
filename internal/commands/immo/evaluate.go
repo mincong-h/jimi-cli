@@ -147,7 +147,7 @@ func evaluate(ctx EvaluationContext, good Property) EvaluationResult {
 	// Maintenance costs
 
 	// If the good is bigger than the current home, the monthly housing charges will increase proportionally.
-	monthlyHousingCharges := ctx.Family.MonthlyHousingCharges * (good.TotalLivingSpaceM2 / ctx.Family.HomeSurfaceM2)
+	monthlyHousingCharges := ctx.CurrentProperty.MonthlyCharges * (good.TotalLivingSpaceM2 / ctx.CurrentProperty.SurfaceM2)
 	monthlyExpenses := ctx.Family.MonthlyExpenses + monthlyHousingCharges + ctx.Mortgage.MonthlyCost // note: we cannot remove existing charges until we rent the current flat
 	monthlyExpensesDiff := fmt.Sprintf("%.0f (%.0f%%)",
 		monthlyExpenses-ctx.Family.MonthlyExpenses,
