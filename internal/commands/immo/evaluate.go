@@ -43,9 +43,10 @@ func runEvaluate(cmd *cobra.Command, args []string) {
 			fmt.Println("----------")
 
 			result := evaluate(EvaluationContext{
-				Family:    cfg.Family,
-				Mortgage:  mortgage,
-				CityStats: cityStats,
+				Family:          cfg.Family,
+				CurrentProperty: cfg.CurrentProperty,
+				Mortgage:        mortgage,
+				CityStats:       cityStats,
 			}, good)
 			printResult(result)
 		}
@@ -146,13 +147,30 @@ func evaluate(ctx EvaluationContext, good Property) EvaluationResult {
 	// Maintenance costs
 
 	// If the good is bigger than the current home, the monthly housing charges will increase proportionally.
-	monthlyHousingCharges := ctx.Family.MonthlyHousingCharges * (good.TotalLivingSpaceM2 / ctx.Family.HomeSurfaceM2)
+	monthlyHousingCharges := ctx.CurrentProperty.MonthlyCharges * (good.TotalLivingSpaceM2 / ctx.CurrentProperty.SurfaceM2)
 	monthlyExpenses := ctx.Family.MonthlyExpenses + monthlyHousingCharges + ctx.Mortgage.MonthlyCost // note: we cannot remove existing charges until we rent the current flat
 	monthlyExpensesDiff := fmt.Sprintf("%.0f (%.0f%%)",
 		monthlyExpenses-ctx.Family.MonthlyExpenses,
 		(monthlyExpenses-ctx.Family.MonthlyExpenses)/ctx.Family.MonthlyExpenses*100,
 	)
 	annualHousingCost := (monthlyHousingCharges+ctx.Mortgage.MonthlyCost)*12 + good.AnnualPropertyTax
+
+	// -----
+	// Renting: start
+	cp := ctx.CurrentProperty
+	// e.g. (1200-385)*(1-0.08) - 1378/12 - 920 = 635
+	rentingGain := (cp.MonthlyIncome-cp.MonthlyCharges)*(1-cp.GestionFeesRate) - cp.AnnualPropertyTax/12 - cp.MonthlyMortgage
+	renting := RentingPerformance{
+		NetMonthlyGain:    math.Round(rentingGain),
+		MonthlyMortgage:   cp.MonthlyMortgage,
+		SurfaceM2:         cp.SurfaceM2,
+		MonthlyIncome:     cp.MonthlyIncome,
+		MonthlyCharges:    cp.MonthlyCharges,
+		GestionFeesRate:   cp.GestionFeesRate,
+		AnnualPropertyTax: cp.AnnualPropertyTax,
+	}
+	// Renting: end
+	// -----
 
 	return EvaluationResult{
 		PurchaseCost: PurchaseCost{
@@ -170,6 +188,7 @@ func evaluate(ctx EvaluationContext, good Property) EvaluationResult {
 			TotalAnnualHousingCost: math.Round(annualHousingCost),
 		},
 		Performance: performance,
+		Renting:     renting,
 		Alerts:      alerts,
 	}
 }
