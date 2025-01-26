@@ -169,7 +169,9 @@ func evaluate(ctx EvaluationContext, good Property) EvaluationResult {
 	// ----------
 
 	// ----------
-	// Maintenance costs: start
+	// Operational costs: start
+
+	// (living cost + holding cost)
 	var monthlyHousingCharges float64
 	if len(good.EnergyPerformanceRatingAfterRenovation) > 0 {
 		// renovation included
@@ -180,7 +182,7 @@ func evaluate(ctx EvaluationContext, good Property) EvaluationResult {
 		// If the good is bigger than the current home, the monthly housing charges will increase proportionally.
 		monthlyHousingCharges = ctx.CurrentProperty.MonthlyCharges * (good.TotalLivingSpaceM2 / ctx.CurrentProperty.SurfaceM2)
 	}
-	monthlyExpenses := ctx.Family.MonthlyExpenses - additionalRentingIncome + monthlyHousingCharges + ctx.Mortgage.MonthlyCost // note: we cannot remove existing charges until we rent the current flat
+	monthlyExpenses := ctx.Family.MonthlyExpenses - additionalRentingIncome + monthlyHousingCharges + ctx.Mortgage.MonthlyCost
 
 	// Remove fees that we don't need anymore
 	if good.HasGarage {
@@ -193,7 +195,7 @@ func evaluate(ctx EvaluationContext, good Property) EvaluationResult {
 		(monthlyExpenses-ctx.Family.MonthlyExpenses)/ctx.Family.MonthlyExpenses*100,
 	)
 	annualHousingCost := (monthlyHousingCharges+ctx.Mortgage.MonthlyCost)*12 + good.AnnualPropertyTax
-	// Maintenance costs: end
+	// Operational costs: end
 	// ----------
 
 	// ----------
