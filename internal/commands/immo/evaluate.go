@@ -150,25 +150,6 @@ func evaluate(ctx EvaluationContext, good Property) EvaluationResult {
 	}
 
 	// ----------
-	// Maintenance costs: start
-	//
-	// If the good is bigger than the current home, the monthly housing charges will increase proportionally.
-	monthlyHousingCharges := ctx.CurrentProperty.MonthlyCharges * (good.TotalLivingSpaceM2 / ctx.CurrentProperty.SurfaceM2)
-	monthlyExpenses := ctx.Family.MonthlyExpenses + monthlyHousingCharges + ctx.Mortgage.MonthlyCost // note: we cannot remove existing charges until we rent the current flat
-	if good.HasGarage {
-		monthlyExpenses -= ctx.Family.MonthlyParkingFee
-	}
-	// Don't rent the secondary residence anymore
-	monthlyExpenses -= ctx.Family.MonthlySecondaryResidenceCost
-	monthlyExpensesDiff := fmt.Sprintf("%.0f (%.0f%%)",
-		monthlyExpenses-ctx.Family.MonthlyExpenses,
-		(monthlyExpenses-ctx.Family.MonthlyExpenses)/ctx.Family.MonthlyExpenses*100,
-	)
-	annualHousingCost := (monthlyHousingCharges+ctx.Mortgage.MonthlyCost)*12 + good.AnnualPropertyTax
-	// Maintenance costs: end
-	// ----------
-
-	// ----------
 	// Renting: start
 	cp := ctx.CurrentProperty
 	// e.g. (1200-385)*(1-0.08) - 1378/12 - 920 = 635
@@ -180,9 +161,32 @@ func evaluate(ctx EvaluationContext, good Property) EvaluationResult {
 		MonthlyIncome:     cp.MonthlyIncome,
 		MonthlyCharges:    cp.MonthlyCharges,
 		GestionFeesRate:   cp.GestionFeesRate,
+		GestionFees:       math.Round((cp.MonthlyIncome - cp.MonthlyCharges) * cp.GestionFeesRate),
 		AnnualPropertyTax: cp.AnnualPropertyTax,
 	}
+	additionalRentingIncome := cp.MonthlyIncome - renting.GestionFees
 	// Renting: end
+	// ----------
+
+	// ----------
+	// Maintenance costs: start
+	//
+	// If the good is bigger than the current home, the monthly housing charges will increase proportionally.
+	monthlyHousingCharges := ctx.CurrentProperty.MonthlyCharges * (good.TotalLivingSpaceM2 / ctx.CurrentProperty.SurfaceM2)
+	monthlyExpenses := ctx.Family.MonthlyExpenses - additionalRentingIncome + monthlyHousingCharges + ctx.Mortgage.MonthlyCost // note: we cannot remove existing charges until we rent the current flat
+
+	// Remove fees that we don't need anymore
+	if good.HasGarage {
+		monthlyExpenses -= ctx.Family.MonthlyParkingFee
+	}
+	monthlyExpenses -= ctx.Family.MonthlySecondaryResidenceCost
+
+	monthlyExpensesDiff := fmt.Sprintf("%.0f (%.0f%%)",
+		monthlyExpenses-ctx.Family.MonthlyExpenses,
+		(monthlyExpenses-ctx.Family.MonthlyExpenses)/ctx.Family.MonthlyExpenses*100,
+	)
+	annualHousingCost := (monthlyHousingCharges+ctx.Mortgage.MonthlyCost)*12 + good.AnnualPropertyTax
+	// Maintenance costs: end
 	// ----------
 
 	// ----------

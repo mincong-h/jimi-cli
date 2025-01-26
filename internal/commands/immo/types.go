@@ -105,6 +105,7 @@ type RentingPerformance struct {
 	MonthlyIncome     float64 `yaml:"monthly_income"`
 	MonthlyCharges    float64 `yaml:"monthly_charges"`
 	GestionFeesRate   float64 `yaml:"gestion_fees_rate"`
+	GestionFees       float64 `yaml:"gestion_fees"`
 	AnnualPropertyTax float64 `yaml:"annual_property_tax"`
 }
 
