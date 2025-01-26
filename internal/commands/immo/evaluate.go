@@ -185,6 +185,14 @@ func evaluate(ctx EvaluationContext, good Property) EvaluationResult {
 	// Renting: end
 	// ----------
 
+	// ----------
+	// Cost summary: start
+	costSummary := CostSummary{
+		AnnualPropertyTax: math.Round(cp.AnnualPropertyTax + good.AnnualPropertyTax),
+	}
+	// Cost summary: end
+	// ----------
+
 	return EvaluationResult{
 		NewPropertyPurchaseCost: PurchaseCost{
 			MortgageAmount:        math.Round(ctx.Mortgage.Amount),
@@ -205,5 +213,6 @@ func evaluate(ctx EvaluationContext, good Property) EvaluationResult {
 		NewPropertyPerformance: performance,
 		Renting:                renting,
 		Alerts:                 alerts,
+		CostSummary:            costSummary,
 	}
 }

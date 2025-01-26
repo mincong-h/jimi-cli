@@ -68,6 +68,7 @@ type EvaluationContext struct {
 
 // EvaluationResult represents the result of an evaluation.
 type EvaluationResult struct {
+	CostSummary                CostSummary        `yaml:"cost_summary"`
 	NewPropertyPurchaseCost    PurchaseCost       `yaml:"new_property_purchase"`
 	NewPropertyOperationalCost OperationalCost    `yaml:"new_property_operational_cost"`
 	NewPropertyPerformance     GoodPerformance    `yaml:"new_property_performance"`
@@ -91,6 +92,10 @@ type OperationalCost struct {
 	MonthlyExpensesDiff    string  `yaml:"monthly_expenses_diff"`
 	AnnualPropertyTax      float64 `yaml:"annual_property_tax"`
 	TotalAnnualHousingCost float64 `yaml:"total_annual_housing_cost"`
+}
+
+type CostSummary struct {
+	AnnualPropertyTax float64 `yaml:"annual_property_tax"`
 }
 
 type RentingPerformance struct {
