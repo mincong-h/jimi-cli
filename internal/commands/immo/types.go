@@ -152,8 +152,10 @@ type Property struct {
 	// ----------
 	// Renovation
 	// ----------
-	RenovationCost        float64 `yaml:"renovation_cost,omitempty" json:"renovation_cost,omitempty"`
-	RenovationDescription string  `yaml:"renovation_description,omitempty" json:"renovation_description,omitempty"`
+	RenovationCost                         float64 `yaml:"renovation_cost,omitempty" json:"renovation_cost,omitempty"`
+	RenovationDescription                  string  `yaml:"renovation_description,omitempty" json:"renovation_description,omitempty"`
+	EnergyPerformanceRatingAfterRenovation string  `yaml:"energy_performance_rating_after_renovation,omitempty" json:"energy_performance_rating_after_renovation,omitempty"`
+	EnergyConsumptionAfterRenovation       float64 `yaml:"energy_consumption_after_renovation,omitempty" json:"energy_consumption_after_renovation,omitempty"`
 
 	// ----------
 	// Property Characteristics
@@ -254,8 +256,8 @@ type Property struct {
 	// GHGEmissions in kgCO2/m²/year (optional)
 	EnergyGHGEmissions float64 `yaml:"energy_ghg_emissions,omitempty" json:"energy_ghg_emissions,omitempty"`
 
-	// EnergyEstimatedAnnualConsumption is the estimated annual energy consumption of the good. Optional.
-	EnergyEstimatedAnnualConsumption string `yaml:"energy_estimated_annual_consumption,omitempty" json:"energy_estimated_annual_consumption,omitempty"`
+	// EnergyConsumptionAnnualCost is the annual energy consumption of the good. Optional.
+	EnergyConsumptionAnnualCost float64 `yaml:"energy_consumption_annual_cost,omitempty" json:"energy_consumption_annual_cost,omitempty"`
 
 	// ----------
 	// Agency Information
