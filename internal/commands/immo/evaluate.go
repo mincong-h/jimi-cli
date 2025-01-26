@@ -186,7 +186,7 @@ func evaluate(ctx EvaluationContext, good Property) EvaluationResult {
 	// ----------
 
 	return EvaluationResult{
-		PurchaseCost: PurchaseCost{
+		NewPropertyPurchaseCost: PurchaseCost{
 			MortgageAmount:        math.Round(ctx.Mortgage.Amount),
 			Contribution:          math.Round(contribution),
 			TotalPurchaseCost:     math.Round(purchaseCost),
@@ -194,7 +194,7 @@ func evaluate(ctx EvaluationContext, good Property) EvaluationResult {
 			RenovationCost:        math.Round(good.RenovationCost),
 			RenovationDescription: good.RenovationDescription,
 		},
-		OperationalCost: OperationalCost{
+		NewPropertyOperationalCost: OperationalCost{
 			MonthlyMortgageCost:    math.Round(ctx.Mortgage.MonthlyCost + ctx.Mortgage.Insurance),
 			MonthlyHousingCharges:  math.Round(monthlyHousingCharges),
 			MonthlyExpenses:        math.Round(monthlyExpenses),
@@ -202,8 +202,8 @@ func evaluate(ctx EvaluationContext, good Property) EvaluationResult {
 			AnnualPropertyTax:      math.Round(good.AnnualPropertyTax),
 			TotalAnnualHousingCost: math.Round(annualHousingCost),
 		},
-		Performance: performance,
-		Renting:     renting,
-		Alerts:      alerts,
+		NewPropertyPerformance: performance,
+		Renting:                renting,
+		Alerts:                 alerts,
 	}
 }
