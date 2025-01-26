@@ -86,6 +86,7 @@ type PurchaseCost struct {
 	RemainingAssets       float64 `yaml:"remaining_assets"` // after initial contribution
 	RenovationCost        float64 `yaml:"renovation_cost"`
 	RenovationDescription string  `yaml:"renovation_description"`
+	FournitureCost        float64 `yaml:"fourniture_cost"`
 }
 
 type OperationalCost struct {
