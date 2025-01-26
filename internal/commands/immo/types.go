@@ -263,6 +263,11 @@ type Property struct {
 	EnergyConsumptionAnnualCost float64 `yaml:"energy_consumption_annual_cost,omitempty" json:"energy_consumption_annual_cost,omitempty"`
 
 	// ----------
+	// Others
+	// ----------
+	FournitureCost float64 `yaml:"fourniture_cost,omitempty" json:"fourniture_cost,omitempty"`
+
+	// ----------
 	// Agency Information
 	// ----------
 

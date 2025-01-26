@@ -86,7 +86,7 @@ func evaluate(ctx EvaluationContext, good Property) EvaluationResult {
 	// Purchase: start
 	//
 	// Assume the agent fees are included in the price of the good.
-	purchaseCost := good.Price*(1+notaryFeesRate) + good.RenovationCost
+	purchaseCost := good.Price*(1+notaryFeesRate) + good.RenovationCost + good.FournitureCost
 
 	contribution := purchaseCost - ctx.Mortgage.Amount
 
