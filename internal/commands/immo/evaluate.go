@@ -144,18 +144,24 @@ func evaluate(ctx EvaluationContext, good Property) EvaluationResult {
 		}
 	}
 
-	// Maintenance costs
-
+	// ----------
+	// Maintenance costs: start
+	//
 	// If the good is bigger than the current home, the monthly housing charges will increase proportionally.
 	monthlyHousingCharges := ctx.CurrentProperty.MonthlyCharges * (good.TotalLivingSpaceM2 / ctx.CurrentProperty.SurfaceM2)
 	monthlyExpenses := ctx.Family.MonthlyExpenses + monthlyHousingCharges + ctx.Mortgage.MonthlyCost // note: we cannot remove existing charges until we rent the current flat
+	if good.HasGarage {
+		monthlyExpenses -= ctx.Family.MonthlyParkingFee
+	}
 	monthlyExpensesDiff := fmt.Sprintf("%.0f (%.0f%%)",
 		monthlyExpenses-ctx.Family.MonthlyExpenses,
 		(monthlyExpenses-ctx.Family.MonthlyExpenses)/ctx.Family.MonthlyExpenses*100,
 	)
 	annualHousingCost := (monthlyHousingCharges+ctx.Mortgage.MonthlyCost)*12 + good.AnnualPropertyTax
+	// Maintenance costs: end
+	// ----------
 
-	// -----
+	// ----------
 	// Renting: start
 	cp := ctx.CurrentProperty
 	// e.g. (1200-385)*(1-0.08) - 1378/12 - 920 = 635
@@ -170,7 +176,7 @@ func evaluate(ctx EvaluationContext, good Property) EvaluationResult {
 		AnnualPropertyTax: cp.AnnualPropertyTax,
 	}
 	// Renting: end
-	// -----
+	// ----------
 
 	return EvaluationResult{
 		PurchaseCost: PurchaseCost{

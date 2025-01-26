@@ -50,6 +50,8 @@ type FamilyContext struct {
 	MonthlyHousingCharges float64 `yaml:"monthly_housing_charges"`
 
 	HomeSurfaceM2 float64 `yaml:"home_surface_m2"`
+
+	MonthlyParkingFee float64 `yaml:"monthly_parking_fee"`
 }
 
 // EvaluationContext represents the context of an evaluation.
