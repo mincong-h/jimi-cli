@@ -56,6 +56,9 @@ type FamilyContext struct {
 	// MonthlySecondaryResidenceCost is the monthly cost of the secondary residence, including the
 	// rent/mortgage, insurance, eletricity, etc.
 	MonthlySecondaryResidenceCost float64 `yaml:"monthly_secondary_residence_cost"`
+
+	// MonthlyElectricityCost is the monthly electricity cost of the family.
+	MonthlyElectricityCost float64 `yaml:"monthly_electricity_cost"`
 }
 
 // EvaluationContext represents the context of an evaluation.

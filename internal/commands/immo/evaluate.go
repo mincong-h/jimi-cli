@@ -189,6 +189,7 @@ func evaluate(ctx EvaluationContext, good Property) EvaluationResult {
 		monthlyExpenses -= ctx.Family.MonthlyParkingFee
 	}
 	monthlyExpenses -= ctx.Family.MonthlySecondaryResidenceCost
+	monthlyExpenses -= ctx.Family.MonthlyElectricityCost
 
 	monthlyExpensesDiff := fmt.Sprintf("%.0f (%.0f%%)",
 		monthlyExpenses-ctx.Family.MonthlyExpenses,
