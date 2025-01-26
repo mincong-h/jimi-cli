@@ -39,7 +39,7 @@ func runEvaluate(cmd *cobra.Command, args []string) {
 		fmt.Println(good.OfferUrl)
 		fmt.Println("==========")
 		for j, mortgage := range cfg.EstimatedMortgages {
-			fmt.Printf("%d.%d. Mortgage %.0fK\n", i+1, j+1, math.Round(mortgage.Amount/1000))
+			fmt.Printf("%d.%d. Mortgage %s %.0fK\n", i+1, j+1, mortgage.Bank, math.Round(mortgage.Amount/1000))
 			fmt.Println("----------")
 
 			result := evaluate(EvaluationContext{
