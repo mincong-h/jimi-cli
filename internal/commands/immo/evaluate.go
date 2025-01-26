@@ -153,6 +153,8 @@ func evaluate(ctx EvaluationContext, good Property) EvaluationResult {
 	if good.HasGarage {
 		monthlyExpenses -= ctx.Family.MonthlyParkingFee
 	}
+	// Don't rent the secondary residence anymore
+	monthlyExpenses -= ctx.Family.MonthlySecondaryResidenceCost
 	monthlyExpensesDiff := fmt.Sprintf("%.0f (%.0f%%)",
 		monthlyExpenses-ctx.Family.MonthlyExpenses,
 		(monthlyExpenses-ctx.Family.MonthlyExpenses)/ctx.Family.MonthlyExpenses*100,

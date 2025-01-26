@@ -52,6 +52,10 @@ type FamilyContext struct {
 	HomeSurfaceM2 float64 `yaml:"home_surface_m2"`
 
 	MonthlyParkingFee float64 `yaml:"monthly_parking_fee"`
+
+	// MonthlySecondaryResidenceCost is the monthly cost of the secondary residence, including the
+	// rent/mortgage, insurance, eletricity, etc.
+	MonthlySecondaryResidenceCost float64 `yaml:"monthly_secondary_residence_cost"`
 }
 
 // EvaluationContext represents the context of an evaluation.
