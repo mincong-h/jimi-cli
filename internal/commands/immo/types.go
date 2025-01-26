@@ -76,10 +76,12 @@ type EvaluationResult struct {
 }
 
 type PurchaseCost struct {
-	TotalPurchaseCost float64 `yaml:"total_purchase_cost"` // house + fees
-	Contribution      float64 `yaml:"contribution"`
-	MortgageAmount    float64 `yaml:"mortgage_amount"`
-	RemainingAssets   float64 `yaml:"remaining_assets"` // after initial contribution
+	TotalPurchaseCost     float64 `yaml:"total_purchase_cost"` // house + fees
+	Contribution          float64 `yaml:"contribution"`
+	MortgageAmount        float64 `yaml:"mortgage_amount"`
+	RemainingAssets       float64 `yaml:"remaining_assets"` // after initial contribution
+	RenovationCost        float64 `yaml:"renovation_cost"`
+	RenovationDescription string  `yaml:"renovation_description"`
 }
 
 type OperationalCost struct {
@@ -140,6 +142,12 @@ type Property struct {
 
 	// BathroomCount is the number of bathrooms. Optional.
 	AnnualPropertyTax float64 `yaml:"annual_property_tax,omitempty" json:"annual_property_tax,omitempty"`
+
+	// ----------
+	// Renovation
+	// ----------
+	RenovationCost        float64 `yaml:"renovation_cost,omitempty" json:"renovation_cost,omitempty"`
+	RenovationDescription string  `yaml:"renovation_description,omitempty" json:"renovation_description,omitempty"`
 
 	// ----------
 	// Property Characteristics

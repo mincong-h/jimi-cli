@@ -82,8 +82,11 @@ func printResult(result EvaluationResult) {
 func evaluate(ctx EvaluationContext, good Property) EvaluationResult {
 	var alerts []string
 
+	// ----------
+	// Purchase: start
+	//
 	// Assume the agent fees are included in the price of the good.
-	purchaseCost := good.Price * (1 + notaryFeesRate) // house + fees
+	purchaseCost := good.Price*(1+notaryFeesRate) + good.RenovationCost
 
 	contribution := purchaseCost - ctx.Mortgage.Amount
 
@@ -95,6 +98,8 @@ func evaluate(ctx EvaluationContext, good Property) EvaluationResult {
 			ctx.Family.ContributionThreshold/1000),
 		)
 	}
+	// Purchase: end
+	// ----------
 
 	// performances
 	performance := GoodPerformance{}
@@ -182,10 +187,12 @@ func evaluate(ctx EvaluationContext, good Property) EvaluationResult {
 
 	return EvaluationResult{
 		PurchaseCost: PurchaseCost{
-			MortgageAmount:    math.Round(ctx.Mortgage.Amount),
-			Contribution:      math.Round(contribution),
-			TotalPurchaseCost: math.Round(purchaseCost),
-			RemainingAssets:   math.Round(reminingAssets),
+			MortgageAmount:        math.Round(ctx.Mortgage.Amount),
+			Contribution:          math.Round(contribution),
+			TotalPurchaseCost:     math.Round(purchaseCost),
+			RemainingAssets:       math.Round(reminingAssets),
+			RenovationCost:        math.Round(good.RenovationCost),
+			RenovationDescription: good.RenovationDescription,
 		},
 		OperationalCost: OperationalCost{
 			MonthlyMortgageCost:    math.Round(ctx.Mortgage.MonthlyCost + ctx.Mortgage.Insurance),
